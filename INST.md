@@ -14,22 +14,18 @@ cd ..
 #from https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/
 wget https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-v1.zip
 unzip wikitext-103-v1.zip
-rm wikitext-103-v1.zip
 cd wikitext-103
 cat wiki.train.tokens wiki.valid.tokens wiki.test.tokens > wikitext.tokens
-shuf wiki.train.tokens > train.txt
-shuf wiki.valid.tokens > valid.txt
-shuf wiki.test.tokens > test.txt
 cd ..
+wget https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-2-v1.zip
 unzip wikitext-2-v1.zip
-rm wikitext-2-v1.zip
 cd wikitext-2
 cat wiki.train.tokens wiki.valid.tokens wiki.test.tokens > wikitext.tokens
-shuf wiki.train.tokens > train.txt
-shuf wiki.valid.tokens > valid.txt
-shuf wiki.test.tokens > test.txt
 cd ..
 
+
+rm wikitext-103-v1.zip
+rm wikitext-2-v1.zip
 #Setup
 conda create -n ProgressiveTraining python=3.6 
 conda activate ProgressiveTraining
