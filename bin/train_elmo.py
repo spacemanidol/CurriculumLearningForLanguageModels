@@ -10,12 +10,10 @@ from bilm.data import BidirectionalLMDataset
 def main(args):
     vocab = load_vocab(args.vocab_file, args.vocab_min_occur)
     n_train_tokens = 768648884 #(this for 1B Word Benchmark)
-
     if args.train_tokens == 'wikitext2':
         n_train_tokens = 2051910 #Enwiki2
     elif args.train_tokens == 'wikitext103':
         n_train_tokens = 101425658 #wikitext-103
-
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
@@ -60,12 +58,12 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
-    parser.add_argument('--vocab_min_occur',type=int, default=50 help='Min occurrence of word in vocab')
-    parser.add_argument('--vocab_file', default='wikitext2/vocab.txt', help='Vocabulary file')
-    parser.add_argument('--train_prefix', default='wikitext2/wiki.train.tokens', help='Prefix for train files')
-    parser.add_argument('--train_tokens', default = 'wikitext2', help='Choose training tokens size')
-    parser.add_argument('--test_prefix', default='wikitext2/wiki.test.tokens',help='Prefix for test files')
-    parser.add_argument('--n_gpus',type=int, default=3 help='Number of GPUS')
+    parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
+    parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')
+    parser.add_argument('--train_prefix', default='wikitext-2/wiki.train.tokens', help='Prefix for train files')
+    parser.add_argument('--train_tokens', default = 'wikitext-2', help='Choose training tokens size')
+    parser.add_argument('--test_prefix', default='wikitext-2/wiki.test.tokens',help='Prefix for test files')
+    parser.add_argument('--n_gpus',type=int, default=3, help='Number of GPUS')
     parser.add_argument('--train_batch_size', type=int, default=128,help='Test Batch size')
     args = parser.parse_args()
     main(args)

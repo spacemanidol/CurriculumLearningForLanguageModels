@@ -446,7 +446,6 @@ class BidirectionalLMDataset(object):
 
     def iter_batches(self, batch_size, num_steps):
         max_word_length = self._data_forward.max_word_length
-
         for X, Xr in zip(
             _get_batch(self._data_forward.get_sentence(), batch_size,
                       num_steps, max_word_length),
