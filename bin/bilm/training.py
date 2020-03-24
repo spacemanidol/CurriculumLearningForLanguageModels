@@ -672,9 +672,7 @@ def _get_feed_dict_from_X(X, start, end, model, char_inputs, bidirectional):
     return feed_dict
 
 
-def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
-          restart_ckpt_file=None):
-
+def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,restart_ckpt_file=None):
     # not restarting so save the options
     if restart_ckpt_file is None:
         with open(os.path.join(tf_save_dir, 'options.json'), 'w') as fout:
@@ -697,6 +695,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
             'train_perplexity', [],
             initializer=tf.constant_initializer(0.0), trainable=False)
         norm_summaries = []
+        print("MEOWOWWWW")
         for k in range(n_gpus):
             with tf.device('/gpu:%d' % k):
                 with tf.variable_scope('lm', reuse=k > 0):
@@ -784,7 +783,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
 
         batch_size = options['batch_size']
         unroll_steps = options['unroll_steps']
-        n_train_tokens = options.get('n_train_tokens', 768648884)
+        n_train_tokens = options['n_train_tokens']
         n_tokens_per_batch = batch_size * unroll_steps * n_gpus
         n_batches_per_epoch = int(n_train_tokens / n_tokens_per_batch)
         n_batches_total = options['n_epochs'] * n_batches_per_epoch
@@ -834,9 +833,22 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
         init_state_values = sess.run(init_state_tensors, feed_dict=feed_dict)
 
         t1 = time.time()
+        ############################################################
+        ############################################################
+        ############################################################
+        ############################################################
+        ################This is what we modify######################
+        ############################################################
+        ############################################################
+        ############################################################
+        ############################################################
+        #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum 
         data_gen = data.iter_batches(batch_size * n_gpus, unroll_steps)
         for batch_no, batch in enumerate(data_gen, start=1):
-
+            if batch_no % n_batches_per_epoch == 0:
+                print("{} of epochs elapsed. Computing perplexity on Test set".format(batch_no / n_batches_per_epoch))
+                print("{} ".format(test_while_train(sess, test_data)))
+                print("#################\n###############\nTraining next Batch.\nThis is where we update the Curriculum")
             # slice the input in the batch for the feed_dict
             X = batch
             feed_dict = {t: v for t, v in zip(
@@ -951,7 +963,37 @@ def clip_grads(grads, options, do_summaries, global_step):
 
     return ret, summary_ops
 
+def test_while_train(sess, data, batch_size=256):
+    init_state_values = sess.run(init_state_tensors,feed_dict=feed_dict)
+    t1 = time.time()
+    batch_losses = []
+    total_loss = 0.0
+    for batch_no, batch in enumerate(data.iter_batches(batch_size, 1), start=1):
+        # slice the input in the batch for the feed_dict
+        X = batch
+        feed_dict = {t: v for t, v in zip(
+                                    init_state_tensors, init_state_values)}
 
+        feed_dict.update(
+            _get_feed_dict_from_X(X, 0, X['token_ids'].shape[0], model, 
+                                        char_inputs, bidirectional)
+        )
+
+        ret = sess.run(
+            [model.total_loss, final_state_tensors],
+            feed_dict=feed_dict
+        )
+
+        loss, init_state_values = ret
+        batch_losses.append(loss)
+        batch_perplexity = np.exp(loss)
+        total_loss += loss
+        avg_perplexity = np.exp(total_loss / batch_no)
+        print("batch=%s, batch_perplexity=%s, avg_perplexity=%s, time=%s" %
+            (batch_no, batch_perplexity, avg_perplexity, time.time() - t1))
+    avg_loss = np.mean(batch_losses)
+    print("FINSIHED!  AVERAGE PERPLEXITY = %s" % np.exp(avg_loss))
+    return np.exp(avg_loss)
 def test(options, ckpt_file, data, batch_size=256):
     '''
     Get the test set perplexity!
