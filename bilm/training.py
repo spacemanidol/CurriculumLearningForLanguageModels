@@ -848,7 +848,7 @@ def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,
         #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum 
         data_gen = data.iter_batches(batch_size * n_gpus, unroll_steps)
         for batch_no, batch in enumerate(data_gen, start=1):
-            if batch_no % n_batches_per_epoch == 0:
+            if (batch_no*2) % n_batches_per_epoch == 0 or batch_no == 1:
                 print("{} of epochs elapsed. Computing perplexity on Test set".format(batch_no / n_batches_per_epoch))
                 test_while_train(model,sess, test_data)
                 print("#################\n###############\nTraining next Batch.\nThis is where we update the Curriculum")
