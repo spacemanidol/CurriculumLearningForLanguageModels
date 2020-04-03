@@ -547,7 +547,7 @@ def average_gradients(tower_grads, batch_size, options):
         if isinstance(g0, tf.IndexedSlices):
             # If the gradient is type IndexedSlices then this is a sparse
             #   gradient with attributes indices and values.
-            # To average, need to concat them individually then create
+            # To average, need to concat them individually then dcreate
             #   a new IndexedSlices object.
             indices = []
             values = []
@@ -672,7 +672,7 @@ def _get_feed_dict_from_X(X, start, end, model, char_inputs, bidirectional):
     return feed_dict
 
 
-def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,
+def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
           restart_ckpt_file=None):
 
     # not restarting so save the options
@@ -837,25 +837,19 @@ def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,
 
         
         ############################################################
-        ############################################################
-        ############################################################
-        ############################################################
         ################This is what we modify######################
         ############################################################
-        ############################################################
-        ############################################################
-        ############################################################
-        #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum 
-        data_gen = data.iter_batches(batch_size * n_gpus, unroll_steps)
+        #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum        
+        n_last_batches = 5000
+        ptive_inf = float('inf')
+        last_n_loss = [ptive_inf] * n_last_batches
+        batch_no_count = 1
+        data_gen = data.iter_batches(batch_size * n_gpus, unroll_steps, batch_no_count, n_batches_total)
         for batch_no, batch in enumerate(data_gen, start=1):
-            if (batch_no*2) % n_batches_per_epoch == 0 or batch_no == 1:
-                print("{} of epochs elapsed. Computing perplexity on Test set".format(batch_no / n_batches_per_epoch))
-                test_while_train(model,sess, test_data)
-                print("#################\n###############\nTraining next Batch.\nThis is where we update the Curriculum")
+            batch_no_count = batch_no
             # slice the input in the batch for the feed_dict
             X = batch
-            feed_dict = {t: v for t, v in zip(
-                                        init_state_tensors, init_state_values)}
+            feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
             for k in range(n_gpus):
                 model = models[k]
                 start = k * batch_size
@@ -869,7 +863,7 @@ def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,
             # This runs the train_op, summaries and the "final_state_tensors"
             #   which just returns the tensors, passing in the initial
             #   state tensors, token ids and next token ids
-            if batch_no % 1250 != 0:
+            if batch_no % 1000 != 0:
                 ret = sess.run(
                     [train_op, summary_op, train_perplexity] +
                                                 final_state_tensors,
@@ -891,24 +885,28 @@ def train(options, data, test_data, n_gpus, tf_save_dir, tf_log_dir,
                     feed_dict=feed_dict
                 )
                 init_state_values = ret[4:]
-                
-
-            if batch_no % 1250 == 0:
-                summary_writer.add_summary(ret[3], batch_no)
-            if batch_no % 100 == 0:
+            if batch_no % 50 == 0:
                 # write the summaries to tensorboard and display perplexity
                 summary_writer.add_summary(ret[1], batch_no)
                 print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
-                print("Total time: %s" % (time.time() - t1))
-
-            if (batch_no % 1250 == 0) or (batch_no == n_batches_total):
+            if (batch_no % 1000 == 0) or (batch_no == n_batches_total):
                 # save the model
                 checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                 saver.save(sess, checkpoint_path, global_step=global_step)
-
+            ave_loss_past_n = np.mean(last_n_loss)
+            last_n_loss.pop(0) # remove oldest loss
+            last_n_loss.append(ret[2]) #Add current loss
+            if ave_loss_past_n < ret[2]:
+               print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
+               checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
+               saver.save(sess, checkpoint_path, global_step=global_step)
+               break
             if batch_no == n_batches_total:
                 # done training!
-                break
+                print("Done training")
+                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
+                saver.save(sess, checkpoint_path, global_step=global_step)
+                #break
 
 
 def clip_by_global_norm_summary(t_list, clip_norm, norm_name, variables):
@@ -966,32 +964,12 @@ def clip_grads(grads, options, do_summaries, global_step):
 
     return ret, summary_ops
 
-def test_while_train(model, sess, data, batch_size=256)
+def test_while_train(model,sess, data,bidirectional, char_inputs, feed_dict, batch_size=128):
+     
     init_state_tensors = model.init_lstm_state
     final_state_tensors = model.final_lstm_state
-    if not char_inputs:
-        feed_dict = {
-            model.token_ids:
-                    np.zeros([batch_size, unroll_steps], dtype=np.int64)
-        }
-        if bidirectional:
-            feed_dict.update({
-                model.token_ids_reverse:
-                    np.zeros([batch_size, unroll_steps], dtype=np.int64)
-            })  
-    else:
-        feed_dict = {
-            model.tokens_characters:
-                np.zeros([batch_size, unroll_steps, max_chars],
-                                dtype=np.int32)
-        }
-        if bidirectional:
-            feed_dict.update({
-                model.tokens_characters_reverse:
-                    np.zeros([batch_size, unroll_steps, max_chars],
-                        dtype=np.int32)
-            })
-
+#    feed_dict = {model.tokens_characters:np.zeros([batch_size, 20, 50],dtype=np.int32)}
+ #   feed_dict.update({model.tokens_characters_reverse:np.zeros([batch_size, 20, 50],dtype=np.int32)})
     init_state_values = sess.run(init_state_tensors,feed_dict=feed_dict)
     t1 = time.time()
     batch_losses = []
@@ -999,19 +977,16 @@ def test_while_train(model, sess, data, batch_size=256)
     for batch_no, batch in enumerate(data.iter_batches(batch_size, 1), start=1):
         # slice the input in the batch for the feed_dict
         X = batch
-        feed_dict = {t: v for t, v in zip(
-                                    init_state_tensors, init_state_values)}
+        feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
 
         feed_dict.update(
             _get_feed_dict_from_X(X, 0, X['token_ids'].shape[0], model, 
                                         char_inputs, bidirectional)
         )
-
         ret = sess.run(
             [model.total_loss, final_state_tensors],
             feed_dict=feed_dict
         )
-
         loss, init_state_values = ret
         batch_losses.append(loss)
         batch_perplexity = np.exp(loss)
@@ -1021,8 +996,8 @@ def test_while_train(model, sess, data, batch_size=256)
             (batch_no, batch_perplexity, avg_perplexity, time.time() - t1))
     avg_loss = np.mean(batch_losses)
     print("FINSIHED!  AVERAGE PERPLEXITY = %s" % np.exp(avg_loss))
-
     return np.exp(avg_loss)
+
 def test(options, ckpt_file, data, batch_size=256):
     '''
     Get the test set perplexity!
@@ -1083,7 +1058,7 @@ def test(options, ckpt_file, data, batch_size=256):
         batch_losses = []
         total_loss = 0.0
         for batch_no, batch in enumerate(
-                                data.iter_batches(batch_size, 1), start=1):
+                                data.iter_batches(batch_size, 1,1,1), start=1):
             # slice the input in the batch for the feed_dict
             X = batch
 

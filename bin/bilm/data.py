@@ -264,7 +264,6 @@ class TokenBatcher(object):
 def _get_batch(generator, batch_size, num_steps, max_word_length):
     """Read batches of input."""
     cur_stream = [None] * batch_size
-
     no_more_data = False
     while True:
         inputs = np.zeros([batch_size, num_steps], np.int32)
@@ -444,18 +443,19 @@ class BidirectionalLMDataset(object):
             filepattern, vocab, reverse=True, test=test,
             shuffle_on_load=shuffle_on_load)
 
-    def iter_batches(self, batch_size, num_steps):
+    def iter_batches(self, batch_size, num_steps,batch_no, n_batches_total):
         max_word_length = self._data_forward.max_word_length
+        print("iter batching")
+        print("Batch number is:{} out of {} total batches. {}% done".format(batch_no, n_batches_total, batch_no/n_batches_total))
         for X, Xr in zip(
             _get_batch(self._data_forward.get_sentence(), batch_size,
                       num_steps, max_word_length),
             _get_batch(self._data_reverse.get_sentence(), batch_size,
                       num_steps, max_word_length)
             ):
-
             for k, v in Xr.items():
                 X[k + '_reverse'] = v
-
+            print("Meow?")
             yield X
 
 
