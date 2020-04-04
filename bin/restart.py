@@ -45,13 +45,13 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
-    parser.add_argument('--vocab_file', help='Vocabulary file')
-    parser.add_argument('--train_prefix', help='Prefix for train files')
-    parser.add_argument('--n_gpus', type=int, default=1,
+    parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt',help='Vocabulary file')
+    parser.add_argument('--train_prefix', default='wikitext-2/wiki.train.tokens.txt',help='Prefix for train files')
+    parser.add_argument('--n_gpus', type=int, default=3,
                         help='Number of GPUs to use')
-    parser.add_argument('--batch_size', type=int, default=0)
-    parser.add_argument('--n_train_tokens', type=int, default=0)
-    parser.add_argument('--n_epochs', type=int, default=0)
+    parser.add_argument('--batch_size', type=int, default=128)
+    parser.add_argument('--n_train_tokens', default=2051910, type=int)
+    parser.add_argument('--n_epochs', type=int, default=1)
 
     args = parser.parse_args()
     main(args)

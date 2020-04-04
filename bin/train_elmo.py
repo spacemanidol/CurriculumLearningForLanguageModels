@@ -37,7 +37,7 @@ def main(args):
       'projection_dim': 512,
       'use_skip_connections': True},
      'all_clip_norm_val': 10.0,
-     'n_epochs': 10,
+     'n_epochs': 1,
      'n_train_tokens': train_tokens,
      'batch_size': args.train_batch_size,
      'n_tokens_vocab': vocab.size,

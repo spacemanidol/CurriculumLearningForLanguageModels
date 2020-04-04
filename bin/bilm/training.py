@@ -801,7 +801,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
         char_inputs = 'char_cnn' in options
         if char_inputs:
             max_chars = options['char_cnn']['max_characters_per_token']
-
+        print("is Char input:{}".format(char_inputs))
         if not char_inputs:
             feed_dict = {
                 model.token_ids:
@@ -906,7 +906,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
                 print("Done training")
                 checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                 saver.save(sess, checkpoint_path, global_step=global_step)
-                #break
+                break
 
 
 def clip_by_global_norm_summary(t_list, clip_norm, norm_name, variables):
