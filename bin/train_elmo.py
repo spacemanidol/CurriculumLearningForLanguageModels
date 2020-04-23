@@ -11,9 +11,9 @@ def main(args):
     vocab = load_vocab(args.vocab_file, args.vocab_min_occur)
     train_tokens = 768648884 #(this for 1B Word Benchmark)
     if args.train_tokens == 'wikitext2':
-        train_tokens = 2051910 #Enwiki2
+        train_tokens = 2051910 *1 #Enwiki2
     elif args.train_tokens == 'wikitext103':
-        train_tokens = 101425658 #wikitext-103
+        train_tokens = 101425658*3 #wikitext-103
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
@@ -37,7 +37,7 @@ def main(args):
       'projection_dim': 512,
       'use_skip_connections': True},
      'all_clip_norm_val': 10.0,
-     'n_epochs': 1,
+     'n_epochs': 10,
      'n_train_tokens': train_tokens,
      'batch_size': args.train_batch_size,
      'n_tokens_vocab': vocab.size,
@@ -56,9 +56,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
-    parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')
-    parser.add_argument('--train_prefix', default='wikitext-2/wiki.train.tokens', help='Prefix for train files')
-    parser.add_argument('--train_tokens', default = 'wikitext2', help='Choose training tokens size')
+    parser.add_argument('--vocab_file', default='wikitext-103/vocab.txt', help='Vocabulary file')
+    parser.add_argument('--train_prefix', default='wikitext-103/wiki.train.tokens', help='Prefix for train files')
+    parser.add_argument('--train_tokens', default = 'wikitext103', help='Choose training tokens size')
     parser.add_argument('--n_gpus',type=int, default=3, help='Number of GPUS')
     parser.add_argument('--train_batch_size', type=int, default=128,help='Test Batch size')
     args = parser.parse_args()

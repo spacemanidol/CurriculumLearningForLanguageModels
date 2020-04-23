@@ -52,7 +52,6 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=128)
     parser.add_argument('--n_train_tokens', default=2051910, type=int)
     parser.add_argument('--n_epochs', type=int, default=1)
-
     args = parser.parse_args()
     main(args)
 

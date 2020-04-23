@@ -32,11 +32,9 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Compute test perplexity')
     parser.add_argument('--save_dir', help='Location of checkpoint files')
-    parser.add_argument('--vocab_file', help='Vocabulary file')
-    parser.add_argument('--test_prefix', help='Prefix for test files')
-    parser.add_argument('--batch_size',
-        type=int, default=256,
-        help='Batch size')
+    parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')
+    parser.add_argument('--test_prefix', default='wikitext-2/wiki.test.tokens', help='Prefix for test files')
+    parser.add_argument('--batch_size',type=int, default=256, help='Batch size')
 
     args = parser.parse_args()
     main(args)

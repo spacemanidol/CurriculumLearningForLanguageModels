@@ -453,7 +453,6 @@ class BidirectionalLMDataset(object):
             ):
             for k, v in Xr.items():
                 X[k + '_reverse'] = v
-#            print("Batch number is:{} out of {} total batches. {}% done".format(batch_no, n_batches_total, batch_no/n_batches_total))
             yield X
 
 
