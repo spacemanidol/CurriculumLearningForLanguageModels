@@ -445,8 +445,6 @@ class BidirectionalLMDataset(object):
 
     def iter_batches(self, batch_size, num_steps,batch_no, n_batches_total):
         max_word_length = self._data_forward.max_word_length
-        print("iter batching")
-        print("Batch number is:{} out of {} total batches. {}% done".format(batch_no, n_batches_total, batch_no/n_batches_total))
         for X, Xr in zip(
             _get_batch(self._data_forward.get_sentence(), batch_size,
                       num_steps, max_word_length),

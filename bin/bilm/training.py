@@ -801,7 +801,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
         char_inputs = 'char_cnn' in options
         if char_inputs:
             max_chars = options['char_cnn']['max_characters_per_token']
-
+        print("is Char input:{}".format(char_inputs))
         if not char_inputs:
             feed_dict = {
                 model.token_ids:
@@ -840,7 +840,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
         ################This is what we modify######################
         ############################################################
         #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum        
-        n_last_batches = 5000
+        n_last_batches = 15000
         ptive_inf = float('inf')
         last_n_loss = [ptive_inf] * n_last_batches
         batch_no_count = 1
@@ -896,17 +896,19 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
             ave_loss_past_n = np.mean(last_n_loss)
             last_n_loss.pop(0) # remove oldest loss
             last_n_loss.append(ret[2]) #Add current loss
-            if ave_loss_past_n < ret[2]:
+            """
+            if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
                print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                saver.save(sess, checkpoint_path, global_step=global_step)
                break
+            """
             if batch_no == n_batches_total:
                 # done training!
                 print("Done training")
                 checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                 saver.save(sess, checkpoint_path, global_step=global_step)
-                #break
+                break
 
 
 def clip_by_global_norm_summary(t_list, clip_norm, norm_name, variables):
