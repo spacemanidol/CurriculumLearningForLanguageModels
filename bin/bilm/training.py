@@ -896,17 +896,19 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
             ave_loss_past_n = np.mean(last_n_loss)
             last_n_loss.pop(0) # remove oldest loss
             last_n_loss.append(ret[2]) #Add current loss
+            """
             if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
                print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                saver.save(sess, checkpoint_path, global_step=global_step)
                break
+            """
             if batch_no == n_batches_total:
                 # done training!
                 print("Done training")
-                checkpoint_path = os.path.join(tf_save_dir, 'full_target_run.ckpt')
+                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                 saver.save(sess, checkpoint_path, global_step=global_step)
-                #break
+                break
 
 
 def clip_by_global_norm_summary(t_list, clip_norm, norm_name, variables):
