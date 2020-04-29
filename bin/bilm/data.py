@@ -455,7 +455,6 @@ class BidirectionalLMDataset(object):
             ):
             for k, v in Xr.items():
                 X[k + '_reverse'] = v
-            print("Meow?")
             yield X
 
 
