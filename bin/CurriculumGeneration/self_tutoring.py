@@ -14,7 +14,6 @@ def get_cdf(id2perplexities):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        python self_tutoring.py $1 tutoring.tsv
         print("Usage: self_tutoring.py <input_file> <save_dir> <vocab_file>
     else:
         """
@@ -32,8 +31,6 @@ if __name__ == "__main__":
         }
 
         data = BidirectionalLMDataset(prefix, vocab, **kwargs)
-        else:
-            data = LMDataset(test_prefix, vocab, **kwargs)
         id2perplexities = get_sentence_perplexity(options, ckpt_file, data,1)
         get_cdf(id2perplexities)
         id2difficulty = get_cdf(id2len)

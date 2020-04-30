@@ -11,7 +11,7 @@ def main(args):
     vocab = load_vocab(args.vocab_file, args.vocab_min_occur)
     train_tokens = 768648884 #(this for 1B Word Benchmark)
     if args.train_tokens == 'wikitext2':
-        train_tokens = 2051910 *1 #Enwiki2
+        train_tokens = 2051910 *3 #Enwiki2
     elif args.train_tokens == 'wikitext103':
         train_tokens = 101425658*3 #wikitext-103
     options = {
@@ -46,15 +46,18 @@ def main(args):
     }
 
     prefix = args.train_prefix
-    train_data = BidirectionalLMDataset(prefix, vocab, test=False, shuffle_on_load=True)
+    train_data = BidirectionalLMDataset(prefix, vocab, test=False, shuffle_on_load=False) # we dont shuffle since our curriculum generator shuffles
 
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
-    train(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir)
+    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, args.initial_competence, args.competence_increment, converge = args.converge)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
+    parser.add_argument('--initial_competence', type=float, default = 0.001)
+    parser.add_argument('--competence_increment', type=float, default = 0.00005)
+    parser.add_argyment('--converge', default = False)
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
     parser.add_argument('--vocab_file', default='wikitext-103/vocab.txt', help='Vocabulary file')
     parser.add_argument('--train_prefix', default='wikitext-103/wiki.train.tokens', help='Prefix for train files')

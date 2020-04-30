@@ -30,16 +30,8 @@ def main(args):
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
 
-    # set optional inputs
-    if args.n_train_tokens > 0:
-        options['n_train_tokens'] = args.n_train_tokens
-    if args.n_epochs > 0:
-        options['n_epochs'] = args.n_epochs
-    if args.batch_size > 0:
-        options['batch_size'] = args.batch_size
-
-    train(options, data, args.n_gpus, tf_save_dir, tf_log_dir,
-          restart_ckpt_file=ckpt_file)
+    options['n_epochs'] = 1
+    train(options, data, args.n_gpus, tf_save_dir, tf_log_dir,restart_ckpt_file=ckpt_file)
 
 
 if __name__ == '__main__':
@@ -47,11 +39,6 @@ if __name__ == '__main__':
     parser.add_argument('--save_dir', help='Location of checkpoint files')
     parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt',help='Vocabulary file')
     parser.add_argument('--train_prefix', default='wikitext-2/wiki.train.tokens.txt',help='Prefix for train files')
-    parser.add_argument('--n_gpus', type=int, default=3,
-                        help='Number of GPUs to use')
-    parser.add_argument('--batch_size', type=int, default=128)
-    parser.add_argument('--n_train_tokens', default=2051910, type=int)
-    parser.add_argument('--n_epochs', type=int, default=1)
     args = parser.parse_args()
     main(args)
 

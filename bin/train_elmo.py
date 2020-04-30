@@ -13,7 +13,7 @@ def main(args):
     if args.train_tokens == 'wikitext2':
         train_tokens = 2051910 *1 #Enwiki2
     elif args.train_tokens == 'wikitext103':
-        train_tokens = 101425658*3 #wikitext-103
+        train_tokens = 101425658*1 #wikitext-103
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
@@ -50,11 +50,12 @@ def main(args):
 
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
-    train(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir)
+    train(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, converge = args.converge)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
+    parser.add_argyment('--converge', default = False)
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
     parser.add_argument('--vocab_file', default='wikitext-103/vocab.txt', help='Vocabulary file')
     parser.add_argument('--train_prefix', default='wikitext-103/wiki.train.tokens', help='Prefix for train files')

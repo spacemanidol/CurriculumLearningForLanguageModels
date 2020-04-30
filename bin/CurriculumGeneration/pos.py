@@ -1,21 +1,14 @@
 import spacy
-from nltk import Tree
-import string
-import sys
-​
+
 nlp = spacy.load("en_core_web_lg")
 
-def to_nltk_tree(node):
-    if node.n_lefts + node.n_rights > 0:
-        return Tree(node.orth_, [to_nltk_tree(child) for child in node.children])
-    else:
-        return node.orth_
-
-def get_depth(doc):
-    t = to_nltk_tree([token for token in doc if token.head == token][0])
-    n_leaves = len(t.leaves())
-    leavepos = set(t.leaf_treeposition(n) for n in range(n_leaves))
-    return max(leavepos) + 1
+import string
+import sys
+def get_pos_diversity(doc):
+    pos_tags = set()
+    for token in doc:
+        pos_tags.add(token.pos_)
+    return len(pos_tags)
 
 def get_cdf(id2len):
     sentence_count = len(id2len)
@@ -37,15 +30,15 @@ if __name__ == "__main__":
         We then read through a second time and output the correct CDF score for each line. 
         finally we sort the file using second column using sort -k 1 filename.txt
         """
-    id2len = {}
+    id2difficulty = {}
     idx = 0
     with open(sys.argv[1],'r') as f:
         for l in f:
-            l = l.strip().split(' ') #split on whitespace
-            id2difficulty[idx] = get_depth(nlp(l))
+            l = l.strip() #split on whitespace
+            id2difficulty[idx] = get_pos_diversity(nlp(l))
             idx += 1
 
-    id2difficulty = get_cdf(id2len)
+    id2difficulty = get_cdf(id2difficulty)
     idx = 0
     with open(sys.argv[1],'r') as f:
         with open(sys.argv[2],'w') as w:

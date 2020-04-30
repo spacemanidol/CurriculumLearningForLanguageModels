@@ -259,6 +259,57 @@ class TokenBatcher(object):
 
         return X_ids
 
+##### for training
+def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, competence):
+    """Read batches of input."""
+    cur_stream = [None] * competence
+    no_more_data = False
+    print("Current Competence:{}".format(competence))
+    while True:
+        inputs = np.zeros([competence, num_steps], np.int32)
+        if max_word_length is not None:
+            char_inputs = np.zeros([competence, num_steps, max_word_length],
+                                np.int32)
+        else:
+            char_inputs = None
+        targets = np.zeros([competence, num_steps], np.int32)
+        print(inputs.shape)
+        for i in range(competence):
+            cur_pos = 0
+            while cur_pos < num_steps:
+                if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
+                    try:
+                        cur_stream[i] = list(next(generator))
+                    except StopIteration:
+                        # No more data, exhaust current streams and quit
+                        no_more_data = True
+                        break
+
+                how_many = min(len(cur_stream[i][0]) - 1, num_steps - cur_pos)
+                next_pos = cur_pos + how_many
+
+                inputs[i, cur_pos:next_pos] = cur_stream[i][0][:how_many]
+                if max_word_length is not None:
+                    char_inputs[i, cur_pos:next_pos] = cur_stream[i][1][
+                                                                    :how_many]
+                targets[i, cur_pos:next_pos] = cur_stream[i][0][1:how_many+1]
+
+                cur_pos = next_pos
+
+                cur_stream[i][0] = cur_stream[i][0][how_many:]
+                if max_word_length is not None:
+                    cur_stream[i][1] = cur_stream[i][1][how_many:]
+        #then shuffle
+        indexes = list(range(competence))
+        random.shuffle(indexes) #next select portion needed for batch
+        to_train = [[],[],[]]
+        for i in indexes[:batch_size]:
+            to_train[0].append(inputs[i])
+            to_train[1].append(char_inputs[i])
+            to_train[2].append(targets[i])
+
+        yield {'token_ids': to_train[0], 'tokens_characters': to_train[1],
+                 'next_token_id': to_train[2]}
 
 ##### for training
 def _get_batch(generator, batch_size, num_steps, max_word_length):
@@ -300,7 +351,6 @@ def _get_batch(generator, batch_size, num_steps, max_word_length):
                 cur_stream[i][0] = cur_stream[i][0][how_many:]
                 if max_word_length is not None:
                     cur_stream[i][1] = cur_stream[i][1][how_many:]
-
         if no_more_data:
             # There is no more data.  Note: this will not return data
             # for the incomplete batch
@@ -378,7 +428,6 @@ class LMDataset(object):
         print('Loading data from: %s' % shard_name)
         with open(shard_name) as f:
             sentences_raw = f.readlines()
-
         if self._reverse:
             sentences = []
             for sentence in sentences_raw:
@@ -390,9 +439,7 @@ class LMDataset(object):
 
         if self._shuffle_on_load:
             random.shuffle(sentences)
-
-        ids = [self.vocab.encode(sentence, self._reverse)
-               for sentence in sentences]
+        ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences]
         if self._use_char_inputs:
             chars_ids = [self.vocab.encode_chars(sentence, self._reverse)
                      for sentence in sentences]
@@ -443,10 +490,10 @@ class BidirectionalLMDataset(object):
             filepattern, vocab, reverse=True, test=test,
             shuffle_on_load=shuffle_on_load)
 
-    def iter_batches(self, batch_size, num_steps,batch_no, n_batches_total):
+    def iter_batches(self, batch_size, num_steps):
         max_word_length = self._data_forward.max_word_length
         for X, Xr in zip(
-            _get_batch(self._data_forward.get_sentence(), batch_size,
+            _get_batch(self._data_forward.get_sentence(), batch_size, 
                       num_steps, max_word_length),
             _get_batch(self._data_reverse.get_sentence(), batch_size,
                       num_steps, max_word_length)
@@ -454,6 +501,18 @@ class BidirectionalLMDataset(object):
             for k, v in Xr.items():
                 X[k + '_reverse'] = v
             yield X
+    
+    def curr_iter_batches(self,  batch_size, num_steps, competence, increment):
+        max_word_length = self._data_forward.max_word_length
+        for X, XR in zip(self._data_forward.load_random_shard(), self._data_reverse.load_random_shard()):
+            a, ar = zip(
+            _get_batch_curriculum(self._data_forward.get_sentence(), batch_size,num_steps, max_word_length, competence),
+            _get_batch_curriculum(self._data_reverse.get_sentence(), batch_size, num_steps, max_word_length, competence)
+            )
+            for k, v in ar.items():
+                a[k + '_reverse'] = v
+            competence +=  increment
+            yield a
 
 
 class InvalidNumberOfCharacters(Exception):

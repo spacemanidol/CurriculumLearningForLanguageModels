@@ -50,7 +50,7 @@ def main(args):
 
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
-    train(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir)
+    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -1,5 +1,6 @@
 import string
 import sys
+import math
 
 def get_cdf(id2diff):
     sentence_count = len(id2diff)
@@ -12,14 +13,15 @@ def get_cdf(id2diff):
     return id2difficulty
     
 def get_probs(n_gram,occurrences):
-    probs = []
+    probabilities = {}
     for gram in n_gram:
-        probs[gram] = n_gram[gram]/occurrences
-    return probs
+        probs = n_gram[gram]
+        probs /= occurrences
+        probabilities[gram] = math.log(probs)
+    return probabilities
     
 if __name__ == "__main__":
-    python n-gram_entropy.py $1 unigram.tsv bigram.tsv trigram.tsv
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 5:
         print("Usage: n-gram_entropy.py <input_file> <unigram output> <bigram output> <trigram output>")
         exit(-1)
     else:
@@ -31,25 +33,26 @@ if __name__ == "__main__":
         with open(sys.argv[1],'r') as f:
             for l in f:
                 l = l.strip().translate(str.maketrans('', '', string.punctuation))
-                l = l.split(' ')
+                l = [i for i in l.split(' ') if i != '']
                 for i in range(len(l)):
                     uni = l[i]
                     if uni not in unigrams:
                         unigrams[uni] = 0 
-                    unigram[uni] += 1
+                    unigrams[uni] += 1
                     total_unigrams += 1
                     if i < len(l) - 1:
-                        bi = ' '.join([l[i], l[i+1])
+                        bi = ' '.join([l[i], l[i+1]])
                         if bi not in bigrams:
                             bigrams[bi] = 0 
                         bigrams[bi] += 1
                         total_bigrams += 1
                     if i < len(l) - 2:
-                        tri = ' '.join([l[i], l[i+1], l[i+2])
+                        tri = ' '.join([l[i], l[i+1], l[i+2]])
                         if tri not in trigrams:
-                            trigrams[bi] = 0 
-                        trigrams[bi] += 1
+                            trigrams[tri] = 0 
+                        trigrams[tri] += 1
                         total_trigrams += 1
+        print("Unique unigrams found:{}\n Bigrams: {}\n Trigrams: {}".format(len(unigrams), len(bigrams), len(trigrams)))
         unigram_probs = get_probs(unigrams, total_unigrams)
         bigram_probs = get_probs(bigrams, total_bigrams)
         trigram_probs = get_probs(trigrams, total_trigrams)
@@ -59,14 +62,14 @@ if __name__ == "__main__":
         with open(sys.argv[1],'r') as f:
             for l in f:
                 l = l.strip().translate(str.maketrans('', '', string.punctuation))
-                l = l.split(' ')
+                l = [i for i in l.split(' ') if i != '']
                 difficulties = [1,1,1]
                 for i in range(len(l)):
-                    difficulties[0] *= unigram_probs[l[1]]
+                    difficulties[0] *= unigram_probs[l[i]]
                     if i < len(l) - 1:
-                        difficulties[1] *= bigram_probs[' '.join([l[i], l[i+1])]
+                        difficulties[1] *= bigram_probs[' '.join([l[i], l[i+1]])]
                     if i < len(l) - 2:
-                        difficulties[2] *= trigram_probs[' '.join([l[i], l[i+1],l[i+2])]
+                        difficulties[2] *= trigram_probs[' '.join([l[i], l[i+1],l[i+2]])]
                 id2unigram_difficulty[idx] = difficulties[0]
                 id2bigram_difficulty[idx] = difficulties[1]
                 id2trigram_difficulty[idx] = difficulties[2]
