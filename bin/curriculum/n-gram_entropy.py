@@ -82,7 +82,7 @@ if __name__ == "__main__":
         with open(sys.argv[1],'r') as f:
             with open(sys.argv[2],'w') as w1:
                 with open(sys.argv[3],'w') as w2:
-                    with open(sys.argv[3],'w') as w3:
+                    with open(sys.argv[4],'w') as w3:
                         for l in f:
                             w1.write("{}\t{}".format(id2unigram_difficulty[idx], l))
                             w2.write("{}\t{}".format(id2bigram_difficulty[idx], l))

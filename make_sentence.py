@@ -14,8 +14,8 @@ if __name__ == "__main__":
         with open(sys.argv[1],'r') as f:
             with open(sys.argv[2],'w') as w:
                 for l in f:
-                    doc = nlp(l)
-                    #for sent in l.split('.'):
-                    for sent in doc.sents:
+                    #doc = nlp(l)
+                    for sent in l.split('.'):
+                    #for sent in doc.sents:
                         if len(sent) > 2:
                             w.write("{}\n".format(sent))

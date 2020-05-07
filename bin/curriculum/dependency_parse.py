@@ -1,5 +1,4 @@
 import spacy
-from nltk import Tree
 import string
 import sys
 nlp = spacy.load("en_core_web_lg")
@@ -35,7 +34,9 @@ if __name__ == "__main__":
     with open(sys.argv[1],'r') as f:
         for l in f:
             doc = nlp(l.strip())
-            id2difficulty[idx] = get_depth([token for token in doc if token.head == token][0], 1)
+            id2difficulty[idx] = 0
+            if len(doc) > 0:
+                id2difficulty[idx] = get_depth([token for token in doc if token.head == token][0], 1)
             idx += 1
 
     id2difficulty = get_cdf(id2difficulty)

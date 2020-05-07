@@ -1,6 +1,8 @@
+import sys
+sys.path.append('../')
+
 from bilm.training import get_sentence_perplexity, load_options_latest_checkpoint, load_vocab
 from bilm.data import LMDataset, BidirectionalLMDataset
-import sys
 
 def get_cdf(id2perplexities):
     sentence_count = len(id2perplexities)
@@ -13,8 +15,8 @@ def get_cdf(id2perplexities):
     return id2difficulty
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: self_tutoring.py <input_file> <save_dir> <vocab_file>
+    if len(sys.argv) != 5:
+        print("Usage: self_tutoring.py <input_file> <save_dir> <vocab_file> <output_file>")
     else:
         """
         First we read through a file twice. 
@@ -30,13 +32,12 @@ if __name__ == "__main__":
             'shuffle_on_load': False,
         }
 
-        data = BidirectionalLMDataset(prefix, vocab, **kwargs)
+        data = BidirectionalLMDataset(sys.argv[1], vocab, **kwargs)
         id2perplexities = get_sentence_perplexity(options, ckpt_file, data,1)
-        get_cdf(id2perplexities)
-        id2difficulty = get_cdf(id2len)
+        id2difficulty = get_cdf(id2perplexities)
         idx = 0
         with open(sys.argv[1],'r') as f:
-            with open(sys.argv[2],'w') as w:
+            with open(sys.argv[4],'w') as w:
                 for l in f:
                     w.write("{}\t{}".format(id2difficulty[idx], l))
                     idx += 1

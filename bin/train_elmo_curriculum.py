@@ -3,7 +3,7 @@ import argparse
 
 import numpy as np
 
-from bilm.training import train, test, load_options_latest_checkpoint, load_vocab
+from bilm.training import train_curriculum, load_vocab
 from bilm.data import BidirectionalLMDataset
 
 

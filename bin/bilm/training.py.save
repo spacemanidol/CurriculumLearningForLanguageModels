@@ -672,7 +672,7 @@ def _get_feed_dict_from_X(X, start, end, model, char_inputs, bidirectional):
     return feed_dict
 
 def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
-          restart_ckpt_file=None, converge = False):
+          restart_ckpt_file=None, converge=False):
 
     # not restarting so save the options
     if restart_ckpt_file is None:
@@ -834,7 +834,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
 
         t1 = time.time()
 
-        n_last_batches = 1000
+        n_last_batches=1000
         ptive_inf = float('inf')
         last_n_loss = [ptive_inf] * n_last_batches
         batch_no_count = 1 
@@ -893,14 +893,21 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
             last_n_loss.append(ret[2]) #Add current loss
             if converge == True:
                 if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
-                    print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
+                    print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batch)
                     checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=global_step)
                     break
-            elif batch_no == n_batches_total:
-                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
-                saver.save(sess, checkpoint_path, global_step=global_step)
-                break
+            if batch_no == n_batches_total:                                                                         # done training!                                                                                    print("Done training")                                                                              checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')                                           saver.save(sess, checkpoint_path, global_step=global_step)                                          if converge == False:
+                    break              if converge == True:                                                                                    if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:                                           print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batch$                    checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')                                           saver.save(sess, checkpoint_path, global_step=global_step)
+                    break
+            if batch_no == n_batches_total:                                                                         # done training!                                                                                    print("Done training")                                                                              checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')                                           saver.save(sess, checkpoint_path, global_step=global_step)                                          if converge == False:
+                    break  
+            if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
+               print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
+               checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
+               saver.save(sess, checkpoint_path, global_step=global_step)
+               break
+            
 
 def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, initial_competence, competence_increment,
           restart_ckpt_file=None, converge=False):

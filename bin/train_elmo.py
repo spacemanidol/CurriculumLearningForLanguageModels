@@ -11,9 +11,11 @@ def main(args):
     vocab = load_vocab(args.vocab_file, args.vocab_min_occur)
     train_tokens = 768648884 #(this for 1B Word Benchmark)
     if args.train_tokens == 'wikitext2':
-        train_tokens = 2051910 *1 #Enwiki2
+        train_tokens = 2051910 #Enwiki2
     elif args.train_tokens == 'wikitext103':
-        train_tokens = 101425658*1 #wikitext-103
+        train_tokens = 101425658 #wikitext-103
+    if args.is_line:
+        train_tokens *= 3
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
@@ -61,7 +63,8 @@ if __name__ == '__main__':
     parser.add_argument('--train_prefix', default='wikitext-103/wiki.train.tokens', help='Prefix for train files')
     parser.add_argument('--train_tokens', default = 'wikitext103', help='Choose training tokens size')
     parser.add_argument('--n_gpus',type=int, default=3, help='Number of GPUS')
-    parser.add_argument('--train_batch_size', type=int, default=128,help='Test Batch size')
+    parser.add_argument('--is_local', default = False, help='Are you using line data')
+    parser.add_argument('--train_batch_size', type=int, default=128,help='Train Batch size')
     args = parser.parse_args()
     main(args)
 
