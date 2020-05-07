@@ -4,6 +4,7 @@ wikitext-2/*
 
 #Models
 models/*/model.ckpt*
+*/*/*/*/model.ckpt*
 tests/*
 
 bilm.egg-info/
