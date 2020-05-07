@@ -5,6 +5,10 @@ wikitext-2/*
 #Models
 models/*/model.ckpt*
 */*/*/*/model.ckpt*
+*/*/*/*/checkpoint
+*/*/*/*/model.ckpt-
+*/*/*/model.ckpt*
+*/*/*/checkpoint
 tests/*
 
 bilm.egg-info/

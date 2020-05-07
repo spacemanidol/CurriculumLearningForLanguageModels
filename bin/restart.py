@@ -37,6 +37,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--save_dir', help='Location of checkpoint files')
+    parser.add_argument('--n_gpus',default=3, type=int)
     parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt',help='Vocabulary file')
     parser.add_argument('--train_prefix', default='wikitext-2/wiki.train.tokens.txt',help='Prefix for train files')
     args = parser.parse_args()
