@@ -3,7 +3,7 @@ wikitext-103/*
 wikitext-2/*
 
 #Models
-models/*
+models/*/model.ckpt*
 tests/*
 
 bilm.egg-info/
