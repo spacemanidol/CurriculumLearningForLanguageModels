@@ -1,0 +1,351 @@
+Found 1 shards at wikitext-103/wiki.train.tokens
+Loading data from: wikitext-103/wiki.train.tokens
+Loaded 1801350 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.train.tokens
+Loading data from: wikitext-103/wiki.train.tokens
+Loaded 1801350 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+USING SKIP CONNECTIONS
+USING SKIP CONNECTIONS
+[['global_step:0', TensorShape([])],
+ ['lm/CNN/W_cnn_0:0',
+  TensorShape([Dimension(1), Dimension(1), Dimension(16), Dimension(32)])],
+ ['lm/CNN/W_cnn_1:0',
+  TensorShape([Dimension(1), Dimension(2), Dimension(16), Dimension(32)])],
+ ['lm/CNN/W_cnn_2:0',
+  TensorShape([Dimension(1), Dimension(3), Dimension(16), Dimension(64)])],
+ ['lm/CNN/W_cnn_3:0',
+  TensorShape([Dimension(1), Dimension(4), Dimension(16), Dimension(128)])],
+ ['lm/CNN/W_cnn_4:0',
+  TensorShape([Dimension(1), Dimension(5), Dimension(16), Dimension(256)])],
+ ['lm/CNN/W_cnn_5:0',
+  TensorShape([Dimension(1), Dimension(6), Dimension(16), Dimension(512)])],
+ ['lm/CNN/W_cnn_6:0',
+  TensorShape([Dimension(1), Dimension(7), Dimension(16), Dimension(1024)])],
+ ['lm/CNN/b_cnn_0:0', TensorShape([Dimension(32)])],
+ ['lm/CNN/b_cnn_1:0', TensorShape([Dimension(32)])],
+ ['lm/CNN/b_cnn_2:0', TensorShape([Dimension(64)])],
+ ['lm/CNN/b_cnn_3:0', TensorShape([Dimension(128)])],
+ ['lm/CNN/b_cnn_4:0', TensorShape([Dimension(256)])],
+ ['lm/CNN/b_cnn_5:0', TensorShape([Dimension(512)])],
+ ['lm/CNN/b_cnn_6:0', TensorShape([Dimension(1024)])],
+ ['lm/CNN_high_0/W_carry:0', TensorShape([Dimension(2048), Dimension(2048)])],
+ ['lm/CNN_high_0/W_transform:0',
+  TensorShape([Dimension(2048), Dimension(2048)])],
+ ['lm/CNN_high_0/b_carry:0', TensorShape([Dimension(2048)])],
+ ['lm/CNN_high_0/b_transform:0', TensorShape([Dimension(2048)])],
+ ['lm/CNN_high_1/W_carry:0', TensorShape([Dimension(2048), Dimension(2048)])],
+ ['lm/CNN_high_1/W_transform:0',
+  TensorShape([Dimension(2048), Dimension(2048)])],
+ ['lm/CNN_high_1/b_carry:0', TensorShape([Dimension(2048)])],
+ ['lm/CNN_high_1/b_transform:0', TensorShape([Dimension(2048)])],
+ ['lm/CNN_proj/W_proj:0', TensorShape([Dimension(2048), Dimension(512)])],
+ ['lm/CNN_proj/b_proj:0', TensorShape([Dimension(512)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_0/lstm_cell/bias:0',
+  TensorShape([Dimension(16384)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_0/lstm_cell/kernel:0',
+  TensorShape([Dimension(1024), Dimension(16384)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_0/lstm_cell/projection/kernel:0',
+  TensorShape([Dimension(4096), Dimension(512)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_1/lstm_cell/bias:0',
+  TensorShape([Dimension(16384)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_1/lstm_cell/kernel:0',
+  TensorShape([Dimension(1024), Dimension(16384)])],
+ ['lm/RNN_0/rnn/multi_rnn_cell/cell_1/lstm_cell/projection/kernel:0',
+  TensorShape([Dimension(4096), Dimension(512)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_0/lstm_cell/bias:0',
+  TensorShape([Dimension(16384)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_0/lstm_cell/kernel:0',
+  TensorShape([Dimension(1024), Dimension(16384)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_0/lstm_cell/projection/kernel:0',
+  TensorShape([Dimension(4096), Dimension(512)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_1/lstm_cell/bias:0',
+  TensorShape([Dimension(16384)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_1/lstm_cell/kernel:0',
+  TensorShape([Dimension(1024), Dimension(16384)])],
+ ['lm/RNN_1/rnn/multi_rnn_cell/cell_1/lstm_cell/projection/kernel:0',
+  TensorShape([Dimension(4096), Dimension(512)])],
+ ['lm/char_embed:0', TensorShape([Dimension(261), Dimension(16)])],
+ ['lm/softmax/W:0', TensorShape([Dimension(265241), Dimension(512)])],
+ ['lm/softmax/b:0', TensorShape([Dimension(265241)])],
+ ['train_perplexity:0', TensorShape([])]]
+Training for 1 epochs and 39619 batches
+is Char input:True
+Batch 50, train_perplexity=8082.5234
+Batch 100, train_perplexity=2495.9827
+Batch 150, train_perplexity=1661.4354
+Batch 200, train_perplexity=1368.3484
+Batch 250, train_perplexity=1097.9391
+Batch 300, train_perplexity=910.2387
+Batch 350, train_perplexity=815.0119
+Batch 400, train_perplexity=806.9611
+Batch 450, train_perplexity=731.89343
+Batch 500, train_perplexity=739.6463
+Batch 550, train_perplexity=684.8972
+Batch 600, train_perplexity=656.7308
+Batch 650, train_perplexity=618.6725
+Batch 700, train_perplexity=600.6845
+Batch 750, train_perplexity=556.6279
+Batch 800, train_perplexity=557.70874
+Batch 850, train_perplexity=553.7476
+Batch 900, train_perplexity=514.151
+Batch 950, train_perplexity=502.6722
+Batch 1000, train_perplexity=474.29657
+Batch 1050, train_perplexity=537.78503
+Batch 1100, train_perplexity=447.72763
+Batch 1150, train_perplexity=494.93115
+Batch 1200, train_perplexity=423.90912
+Batch 1250, train_perplexity=395.45224
+Batch 1300, train_perplexity=397.1187
+Batch 1350, train_perplexity=416.1812
+Batch 1400, train_perplexity=420.6638
+Batch 1450, train_perplexity=357.10126
+Batch 1500, train_perplexity=368.47357
+Batch 1550, train_perplexity=343.71695
+Batch 1600, train_perplexity=324.56335
+Batch 1650, train_perplexity=340.59357
+Batch 1700, train_perplexity=327.62265
+Batch 1750, train_perplexity=319.75946
+Batch 1800, train_perplexity=303.8787
+Batch 1850, train_perplexity=341.30453
+Batch 1900, train_perplexity=309.296
+Batch 1950, train_perplexity=291.2654
+Batch 2000, train_perplexity=294.89722
+Batch 2050, train_perplexity=290.8482
+Batch 2100, train_perplexity=262.8167
+Batch 2150, train_perplexity=296.95386
+Batch 2200, train_perplexity=293.4376
+Batch 2250, train_perplexity=269.37274
+Batch 2300, train_perplexity=267.53848
+Batch 2350, train_perplexity=245.47504
+Batch 2400, train_perplexity=252.56573
+Batch 2450, train_perplexity=240.83919
+Batch 2500, train_perplexity=231.17044
+Batch 2550, train_perplexity=241.01508
+Batch 2600, train_perplexity=226.74515
+Batch 2650, train_perplexity=222.13208
+Batch 2700, train_perplexity=222.64809
+Batch 2750, train_perplexity=209.58102
+Batch 2800, train_perplexity=216.60205
+Batch 2850, train_perplexity=209.39084
+Batch 2900, train_perplexity=222.5046
+Batch 2950, train_perplexity=228.73764
+Batch 3000, train_perplexity=222.29198
+Batch 3050, train_perplexity=209.0006
+Batch 3100, train_perplexity=220.77957
+Batch 3150, train_perplexity=193.88354
+Batch 3200, train_perplexity=213.337
+Batch 3250, train_perplexity=187.75885
+Batch 3300, train_perplexity=179.20552
+Batch 3350, train_perplexity=187.4538
+Batch 3400, train_perplexity=182.819
+Batch 3450, train_perplexity=194.65714
+Batch 3500, train_perplexity=177.87843
+Batch 3550, train_perplexity=179.90451
+Batch 3600, train_perplexity=172.20834
+Batch 3650, train_perplexity=170.73112
+Batch 3700, train_perplexity=178.59149
+Batch 3750, train_perplexity=173.08624
+Batch 3800, train_perplexity=153.74083
+Batch 3850, train_perplexity=162.96492
+Batch 3900, train_perplexity=176.58963
+Batch 3950, train_perplexity=163.09225
+Batch 4000, train_perplexity=157.95251
+Batch 4050, train_perplexity=153.80713
+Batch 4100, train_perplexity=143.75378
+Batch 4150, train_perplexity=146.20235
+Batch 4200, train_perplexity=155.73462
+Batch 4250, train_perplexity=142.29793
+Batch 4300, train_perplexity=149.37903
+Batch 4350, train_perplexity=141.22186
+Batch 4400, train_perplexity=143.61182
+Batch 4450, train_perplexity=145.87589
+Batch 4500, train_perplexity=139.5143
+Batch 4550, train_perplexity=138.83011
+Batch 4600, train_perplexity=127.32467
+Batch 4650, train_perplexity=131.01775
+Batch 4700, train_perplexity=135.77231
+Batch 4750, train_perplexity=136.95482
+Batch 4800, train_perplexity=130.26505
+Batch 4850, train_perplexity=123.85421
+Batch 4900, train_perplexity=126.89082
+Batch 4950, train_perplexity=128.50876
+Batch 5000, train_perplexity=121.51224
+Batch 5050, train_perplexity=127.304146
+Batch 5100, train_perplexity=128.58894
+Batch 5150, train_perplexity=132.50919
+Batch 5200, train_perplexity=119.46282
+Batch 5250, train_perplexity=128.293
+Batch 5300, train_perplexity=113.71681
+Batch 5350, train_perplexity=129.81592
+Batch 5400, train_perplexity=121.33576
+Batch 5450, train_perplexity=121.83755
+Batch 5500, train_perplexity=114.93214
+Batch 5550, train_perplexity=120.94066
+Batch 5600, train_perplexity=108.35681
+Batch 5650, train_perplexity=118.85651
+Batch 5700, train_perplexity=108.57026
+Batch 5750, train_perplexity=107.44725
+Batch 5800, train_perplexity=121.86713
+Batch 5850, train_perplexity=105.80762
+Batch 5900, train_perplexity=114.43936
+Batch 5950, train_perplexity=99.64725
+Batch 6000, train_perplexity=107.98389
+Batch 6050, train_perplexity=101.46252
+Batch 6100, train_perplexity=111.44721
+Batch 6150, train_perplexity=98.92941
+Batch 6200, train_perplexity=104.91061
+Batch 6250, train_perplexity=105.48325
+Batch 6300, train_perplexity=113.723694
+Batch 6350, train_perplexity=96.72513
+Batch 6400, train_perplexity=103.8619
+Batch 6450, train_perplexity=98.05774
+Batch 6500, train_perplexity=100.35205
+Batch 6550, train_perplexity=97.5129
+Batch 6600, train_perplexity=99.60069
+Batch 6650, train_perplexity=103.416336
+Batch 6700, train_perplexity=96.33365
+Batch 6750, train_perplexity=93.56878
+Batch 6800, train_perplexity=89.08948
+Batch 6850, train_perplexity=102.82534
+Batch 6900, train_perplexity=94.43346
+Batch 6950, train_perplexity=95.58703
+Batch 7000, train_perplexity=85.67116
+Batch 7050, train_perplexity=87.888504
+Batch 7100, train_perplexity=92.72691
+Batch 7150, train_perplexity=90.05015
+Batch 7200, train_perplexity=90.76213
+Batch 7250, train_perplexity=91.97057
+Batch 7300, train_perplexity=85.10805
+Batch 7350, train_perplexity=88.01364
+Batch 7400, train_perplexity=91.81519
+Batch 7450, train_perplexity=88.1583
+Batch 7500, train_perplexity=84.1777
+Batch 7550, train_perplexity=84.67524
+Batch 7600, train_perplexity=85.58798
+Batch 7650, train_perplexity=87.50975
+Batch 7700, train_perplexity=80.496956
+Batch 7750, train_perplexity=89.15547
+Batch 7800, train_perplexity=85.33663
+Batch 7850, train_perplexity=82.72333
+Batch 7900, train_perplexity=87.957886
+Batch 7950, train_perplexity=84.037926
+Batch 8000, train_perplexity=84.53731
+Batch 8050, train_perplexity=83.40629
+Batch 8100, train_perplexity=79.5341
+Batch 8150, train_perplexity=77.307335
+Batch 8200, train_perplexity=77.46235
+Batch 8250, train_perplexity=84.0728
+Batch 8300, train_perplexity=84.73389
+Batch 8350, train_perplexity=79.227356
+Batch 8400, train_perplexity=80.04453
+Batch 8450, train_perplexity=79.00598
+Batch 8500, train_perplexity=80.2081
+Batch 8550, train_perplexity=77.61146
+Batch 8600, train_perplexity=77.58893
+Batch 8650, train_perplexity=73.754196
+Batch 8700, train_perplexity=75.360214
+Batch 8750, train_perplexity=74.34017
+Batch 8800, train_perplexity=77.23721
+Batch 8850, train_perplexity=83.30525
+Batch 8900, train_perplexity=76.77166
+Batch 8950, train_perplexity=73.80862
+Batch 9000, train_perplexity=76.67943
+Batch 9050, train_perplexity=75.08832
+Batch 9100, train_perplexity=72.62854
+Batch 9150, train_perplexity=73.81858
+Batch 9200, train_perplexity=73.83259
+Batch 9250, train_perplexity=73.724655
+Batch 9300, train_perplexity=74.370415
+Batch 9350, train_perplexity=74.63739
+Batch 9400, train_perplexity=72.460526
+Batch 9450, train_perplexity=73.45159
+Batch 9500, train_perplexity=69.1531
+Batch 9550, train_perplexity=74.896255
+Batch 9600, train_perplexity=69.87296
+Batch 9650, train_perplexity=71.59322
+Batch 9700, train_perplexity=74.75144
+Batch 9750, train_perplexity=69.05514
+Batch 9800, train_perplexity=71.143265
+Batch 9850, train_perplexity=69.47247
+Batch 9900, train_perplexity=67.18368
+Batch 9950, train_perplexity=71.36626
+Batch 10000, train_perplexity=67.86625
+Batch 10050, train_perplexity=70.47231
+Batch 10100, train_perplexity=71.6862
+Batch 10150, train_perplexity=71.34172
+Batch 10200, train_perplexity=73.14238
+Batch 10250, train_perplexity=66.427315
+Batch 10300, train_perplexity=63.407394
+Batch 10350, train_perplexity=66.23334
+Batch 10400, train_perplexity=68.52718
+Batch 10450, train_perplexity=69.38851
+Batch 10500, train_perplexity=66.20918
+Batch 10550, train_perplexity=61.96642
+Batch 10600, train_perplexity=65.093994
+Batch 10650, train_perplexity=66.65364
+Batch 10700, train_perplexity=65.73705
+Batch 10750, train_perplexity=63.513638
+Batch 10800, train_perplexity=63.129932
+Batch 10850, train_perplexity=63.20436
+Batch 10900, train_perplexity=64.44422
+Batch 10950, train_perplexity=65.93068
+Batch 11000, train_perplexity=60.948875
+Batch 11050, train_perplexity=64.59599
+Batch 11100, train_perplexity=63.22193
+Batch 11150, train_perplexity=63.101643
+Batch 11200, train_perplexity=64.24494
+Batch 11250, train_perplexity=61.315292
+Batch 11300, train_perplexity=62.4591
+Batch 11350, train_perplexity=61.907177
+Batch 11400, train_perplexity=62.28779
+Batch 11450, train_perplexity=63.78509
+Batch 11500, train_perplexity=60.43992
+Batch 11550, train_perplexity=61.57585
+Batch 11600, train_perplexity=59.707634
+Batch 11650, train_perplexity=63.487778
+Batch 11700, train_perplexity=58.426525
+Batch 11750, train_perplexity=61.20686
+Batch 11800, train_perplexity=64.88485
+Batch 11850, train_perplexity=63.869488
+Batch 11900, train_perplexity=60.27486
+Batch 11950, train_perplexity=60.379482
+Batch 12000, train_perplexity=62.38109
+Batch 12050, train_perplexity=61.517918
+Batch 12100, train_perplexity=61.32272
+Batch 12150, train_perplexity=56.935726
+Batch 12200, train_perplexity=58.201324
+Batch 12250, train_perplexity=63.656292
+Batch 12300, train_perplexity=61.63875
+Batch 12350, train_perplexity=60.898735
+Batch 12400, train_perplexity=57.77429
+Batch 12450, train_perplexity=57.614174
+Batch 12500, train_perplexity=57.18032
+Batch 12550, train_perplexity=58.33057
+Batch 12600, train_perplexity=60.92043
+Batch 12650, train_perplexity=54.360935
+Batch 12700, train_perplexity=57.744045
+Batch 12750, train_perplexity=55.856647
+Batch 12800, train_perplexity=56.592785
+Batch 12850, train_perplexity=58.345036
+Batch 12900, train_perplexity=58.16323
+Batch 12950, train_perplexity=57.85738
+Batch 13000, train_perplexity=54.459614
+Batch 13050, train_perplexity=54.3191
+Batch 13100, train_perplexity=57.94269
+Batch 13150, train_perplexity=56.632713
+Batch 13200, train_perplexity=55.688198
+Batch 13250, train_perplexity=57.937496
+Batch 13300, train_perplexity=56.39737
+Batch 13350, train_perplexity=54.517918
+Batch 13400, train_perplexity=56.2617
+Loading data from: wikitext-103/wiki.train.tokens
+Loaded 1801350 sentences.
+Finished loading
+Loading data from: wikitext-103/wiki.train.tokens
+Loaded 1801350 sentences.
+Finished loading
+Batch 13450, train_perplexity=51.095505
+Batch 13500, train_perplexity=54.800602

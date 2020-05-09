@@ -880,7 +880,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
                     feed_dict=feed_dict
                 )
                 init_state_values = ret[4:]
-            if batch_no % 50 == 0:
+            if batch_no % 5 == 0 or batch_no == 1:
                 # write the summaries to tensorboard and display perplexity
                 summary_writer.add_summary(ret[1], batch_no)
                 print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
@@ -1116,7 +1116,7 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, initial_com
                     feed_dict=feed_dict
                 )
                 init_state_values = ret[4:]
-            if batch_no % 50 == 0:
+            if batch_no % 5 == 0 or batch_no == 1:
                 # write the summaries to tensorboard and display perplexity
                 summary_writer.add_summary(ret[1], batch_no)
                 print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))

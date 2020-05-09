@@ -13,7 +13,7 @@ def main(args):
     if args.train_tokens == 'wikitext2':
         train_tokens = 2051910 *1 #Enwiki2
     elif args.train_tokens == 'wikitext103':
-        train_tokens = 101425658*3 #wikitext-103
+        train_tokens = 101425658*1 #wikitext-103
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
