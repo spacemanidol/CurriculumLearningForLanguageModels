@@ -383,13 +383,23 @@ class LMDataset(object):
         self._all_shards = glob.glob(filepattern)
         print('Found %d shards at %s' % (len(self._all_shards), filepattern))
         self._shards_to_choose = []
-
         self._reverse = reverse
         self._test = test
         self._shuffle_on_load = shuffle_on_load
         self._use_char_inputs = hasattr(vocab, 'encode_chars')
-
         self._ids = self._load_random_shard()
+        self._full_ids =  self._ids
+        self._i = 0
+        self._nids = len(self._ids)
+        self.ret = self._load_ret()
+
+    def _load_ret(self):
+        while True:
+            if self._i == self._nids:
+                break
+            ret = self._ids[self._i]
+            self._i += 1
+        return ret
 
     def _choose_random_shard(self):
         if len(self._shards_to_choose) == 0:
@@ -397,18 +407,9 @@ class LMDataset(object):
             random.shuffle(self._shards_to_choose)
         shard_name = self._shards_to_choose.pop()
         return shard_name
+
     def get_curriculum_sentences(self):
-        shard_name = self._choose_random_shard()
-        ids = self._load_shard(shard_name)
-        self._i = 0
-        self._nids = len(ids)
-        self.ids = ids
-        while True:
-            if self._i == self._nids:
-                self._ids = self._load_random_shard()
-            ret = self._ids[self._i]
-            self._i += 1
-            yield ret
+        yield self.ret
     
     def _load_random_shard(self):
         """Randomly select a file and read it."""
@@ -481,7 +482,6 @@ class LMDataset(object):
     def iter_batches(self, batch_size, num_steps):
         for X in _get_batch(self.get_sentence(), batch_size, num_steps,
                            self.max_word_length):
-
             # token_ids = (batch_size, num_steps)
             # char_inputs = (batch_size, num_steps, 50) of character ids
             # targets = word ID of next word (batch_size, num_steps)
@@ -518,10 +518,8 @@ class BidirectionalLMDataset(object):
     def curr_iter_batches(self,  batch_size, num_steps, competence, increment, data_len):
         max_word_length = self._data_forward.max_word_length
         while True:
-            forward_sentences = self._data_forward.get_curriculum_sentences()
-            reverse_sentences = self._data_reverse.get_curriculum_sentences()
-            X = _get_batch_curriculum(forward_sentences, batch_size, num_steps, max_word_length, competence, data_len)
-            XR = _get_batch_curriculum(reverse_sentences, batch_size, num_steps, max_word_length, competence, data_len)
+            X = _get_batch_curriculum(self._data_forward.get_curriculum_sentences(), batch_size, num_steps, max_word_length, competence, data_len)
+            XR = _get_batch_curriculum(self._data_reverse.get_curriculum_sentences(), batch_size, num_steps, max_word_length, competence, data_len)
             for k, v in XR.items():
                 X[k + '_reverse'] = v
             competence +=  increment
