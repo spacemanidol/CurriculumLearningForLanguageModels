@@ -42,51 +42,8 @@ python make_sentence.py wikitext-2/wiki.train.tokens wikitext-2/wiki.train.token
 python make_sentence.py wikitext-2/wiki.test.tokens wikitext-2/wiki.test.tokens.sent
 python make_sentence.py wikitext-2/wiki.valid.tokens wikitext-2/wiki.valid.tokens.sent
 
-# Generate Corpus level Curriculum
-enwiki-10325,00050,00075,000100,000150,000250,000267,735
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.25k 25000
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.50k 50000
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.75k 75000
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.100k 100000
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.150k 150000
-python make_vocab_based_curriculum.py wikitext-103/vocab.txt wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.250k 250000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.5k 5000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.10k 10000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.15k 15000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.20k 20000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.25k 25000
-python make_vocab_based_curriculum.py wikitext-2/vocab.txt wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.30k 30000
-# Train Baselines 
-## Wikitext-2 Basic
+# Generate Corpus level Curriculum and Train baseline and others
 
-# Generate Competence Based Curriculum 
-## Wikitext 2 Curriculum
-python bin/train_elmo_1epoch.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.5k --train_tokens wikitext
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens | results.txt
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.10k
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.15k
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.20k
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.25k
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens.30k
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-python bin/restart.py --save_dir models/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
-## Wikitext 2 Baseline
-python bin/train_elmo_1epoch.py --save_dir models/corpuscurricula/2baseline --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens --train_tokens wikitext
-python bin/restart.py --save_dir models/corpuscurricula/2baseline --vocab_file wikitext-2/vocab.txt --train_prefix wikitext-2/wiki.train.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-2/wiki.test.tokens
-python bin/run_test.py --save_dir models/standard/corpuscurricula/2 --vocab_file wikitext-2/vocab.txt  --test_prefix wikitext-103/wiki.test.tokens
 
 #Setup Jiant
 cd .. 
@@ -103,3 +60,23 @@ python scripts/download_superglue_data.py --data_dir ../Data/superglue --tasks a
 #Glue Scores
 #Elmo Pretrained weights
 source user_config.sh; python main.py --config expglue.conf --overrides "elmo_weight_file_path=/home/spacemanidol/ProgressiveLanguageLearning/models/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5"
+
+
+Wikitext-2 is 107121 sentences
+Each batch is 384 sentences
+Each epoch is 267 batches
+
+After 50 Batches perplexity is 670. Min perplexity is 151. 90% is 202.97072 and is achieved at 1800 batches In sentences its 5400 batches
+Lambda = .1
+Step Increase 0.0001666
+107121 sentences
+
+Train for 2/3 of total batches on curricula 
+Wikitext-103 is 5319618 setneces
+Each batch is 384 sentences
+Each epoch is 13853 batches
+
+278445 batches on curricula 
+Min perplexity is 20.725893.
+Lambda = 0.01
+Increment 3.55545979E-6
