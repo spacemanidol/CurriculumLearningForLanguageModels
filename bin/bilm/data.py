@@ -1,4 +1,3 @@
-2# originally based on https://github.com/tensorflow/models/tree/master/lm_1b
 import glob
 import random
 
@@ -263,6 +262,8 @@ class TokenBatcher(object):
 def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, competence, data_len):
     """Read batches of input."""
     stream_size = int(competence * data_len)
+    if stream_size > data_len:
+        stream_size = data_len
     cur_stream = [None] * stream_size
     no_more_data = False
     print("Current Competence:{}".format(competence))
