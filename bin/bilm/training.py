@@ -902,9 +902,8 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
                 saver.save(sess, checkpoint_path, global_step=global_step)
                 break
 
-def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, initial_competence, competence_increment,
-          restart_ckpt_file=None, converge=False):
-
+def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence, competence_increment, data_len, converge=False):
+    restart_ckpt_file = None
     # not restarting so save the options
     if restart_ckpt_file is None:
         with open(os.path.join(tf_save_dir, 'options.json'), 'w') as fout:
@@ -1075,7 +1074,7 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, initial_com
         last_n_loss = [ptive_inf] * n_last_batches
         batch_no_count = 1
         print("Training model with curriculum. Starting competence:{}. \n Competence increment {}".format(competence, competence_increment))
-        data_gen = data.curr_iter_batches(batch_size * n_gpus, unroll_steps, competence, competence_increment)
+        data_gen = data.curr_iter_batches(batch_size * n_gpus, unroll_steps, competence, competence_increment, data_len)
         for batch_no, batch in enumerate(data_gen, start=1):
             batch_no_count = batch_no
             # slice the input in the batch for the feed_dict

@@ -1,4 +1,4 @@
-# originally based on https://github.com/tensorflow/models/tree/master/lm_1b
+2# originally based on https://github.com/tensorflow/models/tree/master/lm_1b
 import glob
 import random
 
@@ -260,21 +260,21 @@ class TokenBatcher(object):
         return X_ids
 
 ##### for training
-def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, competence):
+def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, competence, data_len):
     """Read batches of input."""
-    cur_stream = [None] * competence
+    stream_size = int(competence * data_len)
+    cur_stream = [None] * stream_size
     no_more_data = False
     print("Current Competence:{}".format(competence))
     while True:
-        inputs = np.zeros([competence, num_steps], np.int32)
+        inputs = np.zeros([stream_size, num_steps], np.int32)
         if max_word_length is not None:
-            char_inputs = np.zeros([competence, num_steps, max_word_length],
+            char_inputs = np.zeros([stream_size, num_steps, max_word_length],
                                 np.int32)
         else:
             char_inputs = None
-        targets = np.zeros([competence, num_steps], np.int32)
-        print(inputs.shape)
-        for i in range(competence):
+        targets = np.zeros([stream_size, num_steps], np.int32)
+        for i in range(stream_size):
             cur_pos = 0
             while cur_pos < num_steps:
                 if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
@@ -300,7 +300,7 @@ def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, com
                 if max_word_length is not None:
                     cur_stream[i][1] = cur_stream[i][1][how_many:]
         #then shuffle
-        indexes = list(range(competence))
+        indexes = list(range(stream_size))
         random.shuffle(indexes) #next select portion needed for batch
         to_train = [[],[],[]]
         for i in indexes[:batch_size]:
@@ -308,9 +308,9 @@ def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, com
             to_train[1].append(char_inputs[i])
             to_train[2].append(targets[i])
 
-        yield {'token_ids': to_train[0], 'tokens_characters': to_train[1],
+        X = {'token_ids': to_train[0], 'tokens_characters': to_train[1],
                  'next_token_id': to_train[2]}
-
+        return X
 ##### for training
 def _get_batch(generator, batch_size, num_steps, max_word_length):
     """Read batches of input."""
@@ -357,7 +357,7 @@ def _get_batch(generator, batch_size, num_steps, max_word_length):
             break
 
         X = {'token_ids': inputs, 'tokens_characters': char_inputs,
-                 'next_token_id': targets}
+                                                          'next_token_id': targets}
 
         yield X
 
@@ -396,7 +396,19 @@ class LMDataset(object):
             random.shuffle(self._shards_to_choose)
         shard_name = self._shards_to_choose.pop()
         return shard_name
-
+    def get_curriculum_sentences(self):
+        shard_name = self._choose_random_shard()
+        ids = self._load_shard(shard_name)
+        self._i = 0
+        self._nids = len(ids)
+        self.ids = ids
+        while True:
+            if self._i == self._nids:
+                self._ids = self._load_random_shard()
+            ret = self._ids[self._i]
+            self._i += 1
+            yield ret
+    
     def _load_random_shard(self):
         """Randomly select a file and read it."""
         if self._test:
@@ -502,17 +514,17 @@ class BidirectionalLMDataset(object):
                 X[k + '_reverse'] = v
             yield X
     
-    def curr_iter_batches(self,  batch_size, num_steps, competence, increment):
+    def curr_iter_batches(self,  batch_size, num_steps, competence, increment, data_len):
         max_word_length = self._data_forward.max_word_length
-        for X, XR in zip(self._data_forward.load_random_shard(), self._data_reverse.load_random_shard()):
-            a, ar = zip(
-            _get_batch_curriculum(self._data_forward.get_sentence(), batch_size,num_steps, max_word_length, competence),
-            _get_batch_curriculum(self._data_reverse.get_sentence(), batch_size, num_steps, max_word_length, competence)
-            )
-            for k, v in ar.items():
-                a[k + '_reverse'] = v
+        while True:
+            forward_sentences = self._data_forward.get_curriculum_sentences()
+            reverse_sentences = self._data_reverse.get_curriculum_sentences()
+            X = _get_batch_curriculum(forward_sentences, batch_size, num_steps, max_word_length, competence, data_len)
+            XR = _get_batch_curriculum(reverse_sentences, batch_size, num_steps, max_word_length, competence, data_len)
+            for k, v in XR.items():
+                X[k + '_reverse'] = v
             competence +=  increment
-            yield a
+            yield X
 
 
 class InvalidNumberOfCharacters(Exception):
