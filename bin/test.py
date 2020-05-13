@@ -7,7 +7,7 @@ from bilm.training import train_curriculum, load_vocab
 from bilm.data import BidirectionalLMDataset
 
 vocab = load_vocab('wikitext-2/vocab.txt', 50)
-data = BidirectionalLMDataset('wikitext-2/wiki.valid.tokens.sent', vocab, test=False, shuffle_on_load=False, curriculum=True, stream_size= 900) # we dont shuffle since our curriculum generator shuffles
+data = BidirectionalLMDataset('wikitext-2/wiki.valid.tokens.sent', vocab, test=False, shuffle_on_load=False, curriculum=True, stream_size= 9439, num_steps = 1) # we dont shuffle since our curriculum generator shuffles
 data_gen = data.curr_iter_batches(10 * 3, 0.01, .005)
 #data = BidirectionalLMDataset('wikitext-2/wiki.valid.tokens.sent', vocab, test=False, shuffle_on_load=False, curriculum=False, stream_size= 9439) # we dont shuffle since our curriculum generator shuffles
 #data_gen = data.iter_batches(10 * 3, 20)

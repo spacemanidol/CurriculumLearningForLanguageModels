@@ -273,7 +273,6 @@ def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, 
         to_train[0].append(inputs[i])
         to_train[1].append(char_inputs[i])
         to_train[2].append(targets[i])
-
     return {'token_ids': to_train[0], 'tokens_characters': to_train[1],
                 'next_token_id': to_train[2]}
 
@@ -360,6 +359,7 @@ class LMDataset(object):
             self._full_ids =  self._ids
             self.stream_size = stream_size
             self.num_steps = num_steps
+            print(len(self._ids))
             self._i = 0
             self._nids = len(self._ids)
             self.load_file(self.get_curriculum_sentences(), self.max_word_length, stream_size, num_steps)
@@ -382,7 +382,6 @@ class LMDataset(object):
                         cur_stream[i] = list(next(generator))
                     except StopIteration:
                         pass
-
                 how_many = min(len(cur_stream[i][0]) - 1, num_steps - cur_pos)
                 next_pos = cur_pos + how_many
 
