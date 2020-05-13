@@ -258,61 +258,25 @@ class TokenBatcher(object):
 
         return X_ids
 
-##### for training
-def _get_batch_curriculum(generator, batch_size, num_steps, max_word_length, competence, data_len):
+
+def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, data_len):
     """Read batches of input."""
     stream_size = int(competence * data_len)
-    if stream_size > data_len:
+    if competence < 1:
+        print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
+    else:
         stream_size = data_len
-    cur_stream = [None] * stream_size
-    no_more_data = False
-    print("Current Competence:{}".format(competence))
-    while True:
-        inputs = np.zeros([stream_size, num_steps], np.int32)
-        if max_word_length is not None:
-            char_inputs = np.zeros([stream_size, num_steps, max_word_length],
-                                np.int32)
-        else:
-            char_inputs = None
-        targets = np.zeros([stream_size, num_steps], np.int32)
-        for i in range(stream_size):
-            cur_pos = 0
-            while cur_pos < num_steps:
-                if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
-                    try:
-                        cur_stream[i] = list(next(generator))
-                    except StopIteration:
-                        # No more data, exhaust current streams and quit
-                        no_more_data = True
-                        break
+    indexes = list(range(stream_size)) #Select potion of corpus which match the models current competence
+    random.shuffle(indexes) #shuffle up all trainable options
+    to_train = [[],[],[]]
+    for i in indexes[:batch_size]:
+        to_train[0].append(inputs[i])
+        to_train[1].append(char_inputs[i])
+        to_train[2].append(targets[i])
 
-                how_many = min(len(cur_stream[i][0]) - 1, num_steps - cur_pos)
-                next_pos = cur_pos + how_many
+    return {'token_ids': to_train[0], 'tokens_characters': to_train[1],
+                'next_token_id': to_train[2]}
 
-                inputs[i, cur_pos:next_pos] = cur_stream[i][0][:how_many]
-                if max_word_length is not None:
-                    char_inputs[i, cur_pos:next_pos] = cur_stream[i][1][
-                                                                    :how_many]
-                targets[i, cur_pos:next_pos] = cur_stream[i][0][1:how_many+1]
-
-                cur_pos = next_pos
-
-                cur_stream[i][0] = cur_stream[i][0][how_many:]
-                if max_word_length is not None:
-                    cur_stream[i][1] = cur_stream[i][1][how_many:]
-        #then shuffle
-        indexes = list(range(stream_size))
-        random.shuffle(indexes) #next select portion needed for batch
-        to_train = [[],[],[]]
-        for i in indexes[:batch_size]:
-            to_train[0].append(inputs[i])
-            to_train[1].append(char_inputs[i])
-            to_train[2].append(targets[i])
-
-        X = {'token_ids': to_train[0], 'tokens_characters': to_train[1],
-                 'next_token_id': to_train[2]}
-        return X
-##### for training
 def _get_batch(generator, batch_size, num_steps, max_word_length):
     """Read batches of input."""
     cur_stream = [None] * batch_size
@@ -332,6 +296,9 @@ def _get_batch(generator, batch_size, num_steps, max_word_length):
             while cur_pos < num_steps:
                 if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
                     try:
+                        print(next(generator))
+                        print("meow")
+                        exit()
                         cur_stream[i] = list(next(generator))
                     except StopIteration:
                         # No more data, exhaust current streams and quit
@@ -370,7 +337,7 @@ class LMDataset(object):
         per line.  Each sentence is pre-tokenized and white space joined.
     """
     def __init__(self, filepattern, vocab, reverse=False, test=False,
-                 shuffle_on_load=False):
+                 shuffle_on_load=False, curriculum=False, stream_size= 9439, num_steps=20):
         '''
         filepattern = a glob string that specifies the list of files.
         vocab = an instance of Vocabulary or UnicodeCharsVocabulary
@@ -388,18 +355,52 @@ class LMDataset(object):
         self._shuffle_on_load = shuffle_on_load
         self._use_char_inputs = hasattr(vocab, 'encode_chars')
         self._ids = self._load_random_shard()
-        self._full_ids =  self._ids
-        self._i = 0
-        self._nids = len(self._ids)
-        self.ret = self._load_ret()
+        if curriculum == True:
+            print("Using curriculum format")
+            self._full_ids =  self._ids
+            self.stream_size = stream_size
+            self.num_steps = num_steps
+            self._i = 0
+            self._nids = len(self._ids)
+            self.load_file(self.get_curriculum_sentences(), self.max_word_length, stream_size, num_steps)
+    
+    def load_file(self, generator, max_word_length, stream_size, num_steps):
+        cur_stream = [None] * stream_size
+        no_more_data = False
+        inputs = np.zeros([stream_size, num_steps], np.int32)
+        if max_word_length is not None:
+            char_inputs = np.zeros([stream_size, num_steps, max_word_length],
+                                np.int32)
+        else:
+            char_inputs = None
+        targets = np.zeros([stream_size, num_steps], np.int32)
+        for i in range(stream_size):
+            cur_pos = 0
+            while cur_pos < num_steps:
+                if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
+                    try:
+                        cur_stream[i] = list(next(generator))
+                    except StopIteration:
+                        pass
 
-    def _load_ret(self):
-        while True:
-            if self._i == self._nids:
-                break
-            ret = self._ids[self._i]
-            self._i += 1
-        return ret
+                how_many = min(len(cur_stream[i][0]) - 1, num_steps - cur_pos)
+                next_pos = cur_pos + how_many
+
+                inputs[i, cur_pos:next_pos] = cur_stream[i][0][:how_many]
+                if max_word_length is not None:
+                    char_inputs[i, cur_pos:next_pos] = cur_stream[i][1][
+                                                                    :how_many]
+                targets[i, cur_pos:next_pos] = cur_stream[i][0][1:how_many+1]
+
+                cur_pos = next_pos
+
+                cur_stream[i][0] = cur_stream[i][0][how_many:]
+                if max_word_length is not None:
+                    cur_stream[i][1] = cur_stream[i][1][how_many:]
+        self.inputs = inputs
+        self.char_inputs = char_inputs
+        self.targets = targets
+        print("Data loaded into memory")
 
     def _choose_random_shard(self):
         if len(self._shards_to_choose) == 0:
@@ -409,7 +410,10 @@ class LMDataset(object):
         return shard_name
 
     def get_curriculum_sentences(self):
-        yield self.ret
+        while True:
+            ret = self._ids[self._i]
+            self._i += 1
+            yield ret
     
     def _load_random_shard(self):
         """Randomly select a file and read it."""
@@ -492,16 +496,16 @@ class LMDataset(object):
         return self._vocab
 
 class BidirectionalLMDataset(object):
-    def __init__(self, filepattern, vocab, test=False, shuffle_on_load=False):
+    def __init__(self, filepattern, vocab, test=False, shuffle_on_load=False, curriculum=False, stream_size= 9439, num_steps=20 ):
         '''
         bidirectional version of LMDataset
         '''
         self._data_forward = LMDataset(
             filepattern, vocab, reverse=False, test=test,
-            shuffle_on_load=shuffle_on_load)
+            shuffle_on_load=shuffle_on_load, curriculum=curriculum, stream_size=stream_size, num_steps=num_steps)
         self._data_reverse = LMDataset(
             filepattern, vocab, reverse=True, test=test,
-            shuffle_on_load=shuffle_on_load)
+            shuffle_on_load=shuffle_on_load, curriculum=curriculum, stream_size=stream_size, num_steps=num_steps)
 
     def iter_batches(self, batch_size, num_steps):
         max_word_length = self._data_forward.max_word_length
@@ -515,11 +519,10 @@ class BidirectionalLMDataset(object):
                 X[k + '_reverse'] = v
             yield X
     
-    def curr_iter_batches(self,  batch_size, num_steps, competence, increment, data_len):
-        max_word_length = self._data_forward.max_word_length
+    def curr_iter_batches(self,  batch_size, competence, increment):
         while True:
-            X = _get_batch_curriculum(self._data_forward.get_curriculum_sentences(), batch_size, num_steps, max_word_length, competence, data_len)
-            XR = _get_batch_curriculum(self._data_reverse.get_curriculum_sentences(), batch_size, num_steps, max_word_length, competence, data_len)
+            X = _get_batch_curriculum(self._data_forward.inputs, self._data_forward.char_inputs, self._data_forward.targets, batch_size, competence, self._data_forward.stream_size)
+            XR = _get_batch_curriculum(self._data_reverse.inputs, self._data_reverse.char_inputs, self._data_reverse.targets, batch_size, competence, self._data_reverse.stream_size)
             for k, v in XR.items():
                 X[k + '_reverse'] = v
             competence +=  increment
