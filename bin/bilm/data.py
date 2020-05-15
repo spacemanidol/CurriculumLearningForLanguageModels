@@ -5,6 +5,10 @@ import numpy as np
 
 from typing import List
 
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n] 
 
 class Vocabulary(object):
     '''
@@ -87,10 +91,13 @@ class Vocabulary(object):
             ]
         else:
             word_ids = [self.word_to_id(cur_word) for cur_word in sentence]
-
         if reverse:
+            #for i in range(current_sent_len, max_sentence_length):
+            #    word_ids.append(self.bos)#pad ids
             return np.array([self.eos] + word_ids + [self.bos], dtype=np.int32)
         else:
+            #for i in range(current_sent_len, max_sentence_length):
+            #    word_ids.append(self.eos)#pad ids
             return np.array([self.bos] + word_ids + [self.eos], dtype=np.int32)
 
 
@@ -263,7 +270,7 @@ def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, 
     """Read batches of input."""
     stream_size = int(competence * data_len)
     if competence < 1:
-        print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
+        pass #print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
     else:
         stream_size = data_len
     indexes = list(range(stream_size)) #Select potion of corpus which match the models current competence
@@ -295,9 +302,6 @@ def _get_batch(generator, batch_size, num_steps, max_word_length):
             while cur_pos < num_steps:
                 if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
                     try:
-                        print(next(generator))
-                        print("meow")
-                        exit()
                         cur_stream[i] = list(next(generator))
                     except StopIteration:
                         # No more data, exhaust current streams and quit
@@ -336,7 +340,7 @@ class LMDataset(object):
         per line.  Each sentence is pre-tokenized and white space joined.
     """
     def __init__(self, filepattern, vocab, reverse=False, test=False,
-                 shuffle_on_load=False, curriculum=False, stream_size= 9439, num_steps=20):
+                 shuffle_on_load=False, curriculum=False, num_steps=20):
         '''
         filepattern = a glob string that specifies the list of files.
         vocab = an instance of Vocabulary or UnicodeCharsVocabulary
@@ -353,52 +357,39 @@ class LMDataset(object):
         self._test = test
         self._shuffle_on_load = shuffle_on_load
         self._use_char_inputs = hasattr(vocab, 'encode_chars')
-        self._ids = self._load_random_shard()
         if curriculum == True:
-            print("Using curriculum format")
-            self._full_ids =  self._ids
-            self.stream_size = stream_size
             self.num_steps = num_steps
-            print(len(self._ids))
-            self._i = 0
-            self._nids = len(self._ids)
-            self.load_file(self.get_curriculum_sentences(), self.max_word_length, stream_size, num_steps)
-    
-    def load_file(self, generator, max_word_length, stream_size, num_steps):
-        cur_stream = [None] * stream_size
-        no_more_data = False
-        inputs = np.zeros([stream_size, num_steps], np.int32)
-        if max_word_length is not None:
-            char_inputs = np.zeros([stream_size, num_steps, max_word_length],
-                                np.int32)
+            self.load_file(self._choose_random_shard(), num_steps)
         else:
-            char_inputs = None
-        targets = np.zeros([stream_size, num_steps], np.int32)
-        for i in range(stream_size):
-            cur_pos = 0
-            while cur_pos < num_steps:
-                if cur_stream[i] is None or len(cur_stream[i][0]) <= 1:
-                    try:
-                        cur_stream[i] = list(next(generator))
-                    except StopIteration:
-                        pass
-                how_many = min(len(cur_stream[i][0]) - 1, num_steps - cur_pos)
-                next_pos = cur_pos + how_many
-
-                inputs[i, cur_pos:next_pos] = cur_stream[i][0][:how_many]
-                if max_word_length is not None:
-                    char_inputs[i, cur_pos:next_pos] = cur_stream[i][1][
-                                                                    :how_many]
-                targets[i, cur_pos:next_pos] = cur_stream[i][0][1:how_many+1]
-
-                cur_pos = next_pos
-
-                cur_stream[i][0] = cur_stream[i][0][how_many:]
-                if max_word_length is not None:
-                    cur_stream[i][1] = cur_stream[i][1][how_many:]
+            self._ids = self._load_random_shard()
+    
+    def load_file(self, shard_name, num_steps):
+        inputs, targets, char_inputs = [],[],[]
+        with open(shard_name) as f:
+            sentences = f.readlines()
+        if self._reverse:
+            new_sentences = []
+            for sentence in sentences:
+                splitted = sentence.split()
+                splitted.reverse()
+                new_sentences.append(' '.join(splitted))
+            sentences = new_sentences
+        new_sentences = []
+        for sentence in sentences:
+            split_sentence = sentence.split(' ')
+            [new_sentences.append(' '.join(sub_sent)) for sub_sent in chunks(split_sentence,num_steps)]
+        sentences = new_sentences
+        ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences]
+        chars_ids = [self.vocab.encode_chars(sentence, self._reverse) for sentence in sentences]
+        for i in range(len(ids)):
+            sent_len = len(ids[i])
+            inputs.append(ids[i][:-2])
+            char_inputs.append(chars_ids[i][-2])
+            targets.append(ids[i][1:])
         self.inputs = inputs
         self.char_inputs = char_inputs
         self.targets = targets
+        self.stream_size = len(inputs)
         print("Data loaded into memory")
 
     def _choose_random_shard(self):
@@ -456,13 +447,12 @@ class LMDataset(object):
 
         if self._shuffle_on_load:
             random.shuffle(sentences)
-        ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences]
+        ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences] #make sentence level
         if self._use_char_inputs:
             chars_ids = [self.vocab.encode_chars(sentence, self._reverse)
-                     for sentence in sentences]
+                     for sentence in sentences] # make sentence level
         else:
             chars_ids = [None] * len(ids)
-
         print('Loaded %d sentences.' % len(ids))
         print('Finished loading')
         return list(zip(ids, chars_ids))
@@ -495,16 +485,16 @@ class LMDataset(object):
         return self._vocab
 
 class BidirectionalLMDataset(object):
-    def __init__(self, filepattern, vocab, test=False, shuffle_on_load=False, curriculum=False, stream_size= 9439, num_steps=20 ):
+    def __init__(self, filepattern, vocab, test=False, shuffle_on_load=False, curriculum=False, num_steps=20 ):
         '''
         bidirectional version of LMDataset
         '''
         self._data_forward = LMDataset(
             filepattern, vocab, reverse=False, test=test,
-            shuffle_on_load=shuffle_on_load, curriculum=curriculum, stream_size=stream_size, num_steps=num_steps)
+            shuffle_on_load=shuffle_on_load, curriculum=curriculum, num_steps=num_steps)
         self._data_reverse = LMDataset(
             filepattern, vocab, reverse=True, test=test,
-            shuffle_on_load=shuffle_on_load, curriculum=curriculum, stream_size=stream_size, num_steps=num_steps)
+            shuffle_on_load=shuffle_on_load, curriculum=curriculum, num_steps=num_steps)
 
     def iter_batches(self, batch_size, num_steps):
         max_word_length = self._data_forward.max_word_length
