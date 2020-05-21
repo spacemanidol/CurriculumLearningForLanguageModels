@@ -367,6 +367,12 @@ class LMDataset(object):
         inputs, targets, char_inputs = [],[],[]
         with open(shard_name) as f:
             sentences = f.readlines()
+        new_sentences = []
+        for sentence in sentences:
+            split_sentence = sentence.split(' ')
+            if len(split_sentence) > 2:
+                [new_sentences.append(' '.join(sub_sent)) for sub_sent in chunks(split_sentence,num_steps)]
+        sentences = new_sentences
         if self._reverse:
             new_sentences = []
             for sentence in sentences:
@@ -374,11 +380,7 @@ class LMDataset(object):
                 splitted.reverse()
                 new_sentences.append(' '.join(splitted))
             sentences = new_sentences
-        new_sentences = []
-        for sentence in sentences:
-            split_sentence = sentence.split(' ')
-            [new_sentences.append(' '.join(sub_sent)) for sub_sent in chunks(split_sentence,num_steps)]
-        sentences = new_sentences
+
         ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences]
         chars_ids = [self.vocab.encode_chars(sentence, self._reverse) for sentence in sentences]
         for i in range(len(ids)):
@@ -390,6 +392,7 @@ class LMDataset(object):
         self.char_inputs = char_inputs
         self.targets = targets
         self.stream_size = len(inputs)
+        print("{} sentences loaded".format(len(inputs)))
         print("Data loaded into memory")
 
     def _choose_random_shard(self):

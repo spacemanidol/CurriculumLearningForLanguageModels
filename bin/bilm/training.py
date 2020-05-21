@@ -1074,72 +1074,62 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
         last_n_loss = [ptive_inf] * n_last_batches
         batch_no_count = 1
         print("Training model with curriculum. Starting competence:{}. \n Competence increment {}".format(competence, competence_increment))
-        data_gen = data.curr_iter_batches(batch_size * n_gpus, unroll_steps, competence, competence_increment, data_len)
+        data_gen = data.curr_iter_batches(batch_size * n_gpus, competence, competence_increment)
         for batch_no, batch in enumerate(data_gen, start=1):
-            batch_no_count = batch_no
             # slice the input in the batch for the feed_dict
-            X = batch
-            feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
-            for k in range(n_gpus):
-                model = models[k]
-                start = k * batch_size
-                end = (k + 1) * batch_size
+            print("test")
+            if len(batch['token_ids']) > 0:
+                X = batch
+                feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
+                for k in range(n_gpus):
+                    model = models[k]
+                    start = k * batch_size
+                    end = (k + 1) * batch_size
 
-                feed_dict.update(
-                    _get_feed_dict_from_X(X, start, end, model,
+                    feed_dict.update(
+                        _get_feed_dict_from_X(X, start, end, model,
                                           char_inputs, bidirectional)
-                )
+                    )
 
-            # This runs the train_op, summaries and the "final_state_tensors"
-            #   which just returns the tensors, passing in the initial
-            #   state tensors, token ids and next token ids
-            if batch_no % 1000 != 0:
-                ret = sess.run(
-                    [train_op, summary_op, train_perplexity] +
-                                                final_state_tensors,
-                    feed_dict=feed_dict
-                )
+                if batch_no % 1000 != 0:
+                    ret = sess.run(
+                        [train_op, summary_op, train_perplexity] +
+                                                    final_state_tensors,
+                        feed_dict=feed_dict
+                    )
+                    init_state_values = ret[3:]
 
-                # first three entries of ret are:
-                #  train_op, summary_op, train_perplexity
-                # last entries are the final states -- set them to
-                # init_state_values
-                # for next batch
-                init_state_values = ret[3:]
-
-            else:
-                # also run the histogram summaries
-                ret = sess.run(
-                    [train_op, summary_op, train_perplexity, hist_summary_op] + 
-                                                final_state_tensors,
-                    feed_dict=feed_dict
-                )
-                init_state_values = ret[4:]
-            if batch_no % 5 == 0 or batch_no == 1:
-                # write the summaries to tensorboard and display perplexity
-                summary_writer.add_summary(ret[1], batch_no)
-                print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
-            if (batch_no % 1000 == 0) or (batch_no == n_batches_total):
-                # save the model
-                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
-                saver.save(sess, checkpoint_path, global_step=global_step)
-            ave_loss_past_n = np.mean(last_n_loss)
-            last_n_loss.pop(0) # remove oldest loss
-            last_n_loss.append(ret[2]) #Add current loss
-            if converge == True:
-                if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
-                    print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
+                else:
+                    ret = sess.run(
+                        [train_op, summary_op, train_perplexity, hist_summary_op] + 
+                                                    final_state_tensors,
+                        feed_dict=feed_dict
+                    )
+                    init_state_values = ret[4:]
+                if batch_no % 5 == 0 or batch_no == 1:
+                    # write the summaries to tensorboard and display perplexity
+                    summary_writer.add_summary(ret[1], batch_no)
+                    print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
+                if (batch_no % 1000 == 0) or (batch_no == n_batches_total):
+                    # save the model
                     checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=global_step)
-                    break
-            if batch_no == n_batches_total:
-                # done training!
-                print("Done training")
-                checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
-                saver.save(sess, checkpoint_path, global_step=global_step)
-                if converge == False:
-                    break
-                
+                ave_loss_past_n = np.mean(last_n_loss)
+                last_n_loss.pop(0) # remove oldest loss
+                last_n_loss.append(ret[2]) #Add current loss
+                if converge == True:
+                    if ave_loss_past_n < ret[2] and batch_no > n_batches_total+1:
+                        print("Loss hasnt improved in {} batches.\nDone Training\n".format(n_last_batches))
+                        checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
+                        saver.save(sess, checkpoint_path, global_step=global_step)
+                        break
+                if batch_no == n_batches_total:
+                    # done training!
+                    print("Done training")
+                    checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
+                    saver.save(sess, checkpoint_path, global_step=global_step)
+                    if converge == False:
+                        break                
 
 
 def clip_by_global_norm_summary(t_list, clip_norm, norm_name, variables):

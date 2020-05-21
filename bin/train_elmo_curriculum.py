@@ -11,9 +11,9 @@ def main(args):
     vocab = load_vocab(args.vocab_file, args.vocab_min_occur)
     train_tokens = 768648884 #(this for 1B Word Benchmark)
     if args.train_tokens == 'wikitext2':
-        train_tokens = 2051910 *3 #Enwiki2
+        train_tokens = 2051910 *3 * 1.5 #Enwiki2 is 3x longer if split into sentences and a further 1.5 when using sentence split size of 20
     elif args.train_tokens == 'wikitext103':
-        train_tokens = 101425658*3 #wikitext-103
+        train_tokens = 101425658*3 *1.5 #wikitext-103
     options = {
      'bidirectional': True,
      'char_cnn': {'activation': 'relu',
@@ -46,7 +46,7 @@ def main(args):
     }
 
     prefix = args.train_prefix
-    train_data = BidirectionalLMDataset(prefix, vocab, test=False, shuffle_on_load=False) # we dont shuffle since our curriculum generator shuffles
+    train_data = BidirectionalLMDataset(prefix, vocab, test=False, shuffle_on_load=False, curriculum=True, num_steps=20) # we dont shuffle since our curriculum generator shuffles
 
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_dir', help='Location of checkpoint files')
     parser.add_argument('--initial_competence', type=float, default = 0.1) 
     parser.add_argument('--competence_increment', type=float, default = 0.000166667)
-    parser.add_argument('--data_len', type=int, default = 107121)
+    parser.add_argument('--data_len', type=int, default = 149137)
     parser.add_argument('--converge', default = False)
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
     parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')
