@@ -268,6 +268,7 @@ class TokenBatcher(object):
 
 def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, data_len):
     """Read batches of input."""
+    print(inputs)
     stream_size = int(competence * data_len)
     if competence < 1:
         pass #print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
@@ -369,7 +370,7 @@ class LMDataset(object):
             sentences = f.readlines()
         new_sentences = []
         for sentence in sentences:
-            split_sentence = sentence.split(' ')
+            split_sentence = sentence.strip(' \n.').split(' ')
             if len(split_sentence) > 2:
                 [new_sentences.append(' '.join(sub_sent)) for sub_sent in chunks(split_sentence,num_steps)]
         sentences = new_sentences

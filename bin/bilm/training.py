@@ -1077,7 +1077,6 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
         data_gen = data.curr_iter_batches(batch_size * n_gpus, competence, competence_increment)
         for batch_no, batch in enumerate(data_gen, start=1):
             # slice the input in the batch for the feed_dict
-            print("test")
             if len(batch['token_ids']) > 0:
                 X = batch
                 feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
