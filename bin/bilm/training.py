@@ -902,7 +902,7 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
                 saver.save(sess, checkpoint_path, global_step=global_step)
                 break
 
-def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence, competence_increment, data_len, converge=False):
+def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence, competence_increment, target_batches, converge=False):
     restart_ckpt_file = None
     # not restarting so save the options
     if restart_ckpt_file is None:
@@ -1016,7 +1016,7 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
         n_train_tokens = options['n_train_tokens']
         n_tokens_per_batch = batch_size * unroll_steps * n_gpus
         n_batches_per_epoch = int(n_train_tokens / n_tokens_per_batch)
-        n_batches_total = options['n_epochs'] * n_batches_per_epoch
+        n_batches_total = target_batches #options['n_epochs'] * n_batches_per_epoch
         print("Training for %s epochs and %s batches" % (
             options['n_epochs'], n_batches_total))
 
@@ -1062,13 +1062,7 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
 
         init_state_values = sess.run(init_state_tensors, feed_dict=feed_dict)
 
-        t1 = time.time()
-
-        
-        ############################################################
-        ################This is what we modify######################
-        ############################################################
-        #potential way to do this is change the iter_batches to initially sample no batches not matching curiculum        
+        t1 = time.time()        
         n_last_batches = 1000
         ptive_inf = float('inf')
         last_n_loss = [ptive_inf] * n_last_batches
@@ -1076,7 +1070,6 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
         print("Training model with curriculum. Starting competence:{}. \n Competence increment {}".format(competence, competence_increment))
         data_gen = data.curr_iter_batches(batch_size * n_gpus, competence, competence_increment)
         for batch_no, batch in enumerate(data_gen, start=1):
-            # slice the input in the batch for the feed_dict
             if len(batch['token_ids']) > 0:
                 X = batch
                 feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}

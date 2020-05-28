@@ -50,14 +50,14 @@ def main(args):
 
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
-    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, args.initial_competence, args.competence_increment, args.data_len, args.converge)
+    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, args.initial_competence, args.competence_increment, args.target_batches, args.converge)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--target_batches', default=3823, type=int)
     parser.add_argument('--save_dir', help='Location of checkpoint files')
     parser.add_argument('--initial_competence', type=float, default = 0.1) 
     parser.add_argument('--competence_increment', type=float, default = 0.000166667)
-    parser.add_argument('--data_len', type=int, default = 149137)
     parser.add_argument('--converge', default = False)
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
     parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')

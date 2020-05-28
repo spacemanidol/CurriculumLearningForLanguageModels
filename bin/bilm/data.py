@@ -1,3 +1,4 @@
+
 import glob
 import random
 
@@ -197,7 +198,7 @@ class UnicodeCharsVocabulary(Vocabulary):
 
 
 class Batcher(object):
-    ''' 
+    '''
     Batch sentences of tokenized text into character id matrices.
     '''
     def __init__(self, lm_vocab_file: str, max_token_length: int):
@@ -268,7 +269,6 @@ class TokenBatcher(object):
 
 def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, data_len):
     """Read batches of input."""
-    print(inputs)
     stream_size = int(competence * data_len)
     if competence < 1:
         pass #print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
@@ -281,8 +281,8 @@ def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, 
         to_train[0].append(inputs[i])
         to_train[1].append(char_inputs[i])
         to_train[2].append(targets[i])
-    return {'token_ids': to_train[0], 'tokens_characters': to_train[1],
-                'next_token_id': to_train[2]}
+    return {'token_ids': np.array(to_train[0]), 'tokens_characters': np.array(to_train[1]),
+                'next_token_id': np.array(to_train[2])}
 
 def _get_batch(generator, batch_size, num_steps, max_word_length):
     """Read batches of input."""
@@ -356,6 +356,7 @@ class LMDataset(object):
         self._shards_to_choose = []
         self._reverse = reverse
         self._test = test
+        self._i = 0
         self._shuffle_on_load = shuffle_on_load
         self._use_char_inputs = hasattr(vocab, 'encode_chars')
         if curriculum == True:
@@ -372,7 +373,8 @@ class LMDataset(object):
         for sentence in sentences:
             split_sentence = sentence.strip(' \n.').split(' ')
             if len(split_sentence) > 2:
-                [new_sentences.append(' '.join(sub_sent)) for sub_sent in chunks(split_sentence,num_steps)]
+                new_sentences.append(' '.join(split_sentence))
+        padding =  ['<PAD>'for i in range(num_steps)]
         sentences = new_sentences
         if self._reverse:
             new_sentences = []
@@ -381,14 +383,25 @@ class LMDataset(object):
                 splitted.reverse()
                 new_sentences.append(' '.join(splitted))
             sentences = new_sentences
-
+        #Split any sentences longer than unroll
+        new_sentences = []
+        for sentence in sentences:
+            split_sentence= sentence.split(' ')
+            if self._reverse:
+                [new_sentences.append(' '.join((padding + sub_sent)[-(num_steps-1):])) for sub_sent in chunks(split_sentence,num_steps-1)]
+            else:
+                [new_sentences.append(' '.join((sub_sent + padding)[:num_steps-1])) for sub_sent in chunks(split_sentence,num_steps-1)]
+        sentences = new_sentences
+        sentences_len = len(sentences)
+        inputs = np.zeros([sentences_len, num_steps], np.int32)
+        char_inputs = np.zeros([sentences_len, num_steps, self.vocab.max_word_length], np.int32)
+        targets = np.zeros([sentences_len, num_steps], np.int32)
         ids = [self.vocab.encode(sentence, self._reverse) for sentence in sentences]
         chars_ids = [self.vocab.encode_chars(sentence, self._reverse) for sentence in sentences]
-        for i in range(len(ids)):
-            sent_len = len(ids[i])
-            inputs.append(ids[i][:-2])
-            char_inputs.append(chars_ids[i][-2])
-            targets.append(ids[i][1:])
+        for i in range(sentences_len):
+            inputs[i] = ids[i][:-1]
+            char_inputs[i] = chars_ids[i][:-1]
+            targets[i] = ids[i][1:]
         self.inputs = inputs
         self.char_inputs = char_inputs
         self.targets = targets
