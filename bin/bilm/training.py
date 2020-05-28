@@ -1179,40 +1179,6 @@ def clip_grads(grads, options, do_summaries, global_step):
 
     return ret, summary_ops
 
-def test_while_train(model,sess, data,bidirectional, char_inputs, feed_dict, batch_size=128):
-     
-    init_state_tensors = model.init_lstm_state
-    final_state_tensors = model.final_lstm_state
-#    feed_dict = {model.tokens_characters:np.zeros([batch_size, 20, 50],dtype=np.int32)}
- #   feed_dict.update({model.tokens_characters_reverse:np.zeros([batch_size, 20, 50],dtype=np.int32)})
-    init_state_values = sess.run(init_state_tensors,feed_dict=feed_dict)
-    t1 = time.time()
-    batch_losses = []
-    total_loss = 0.0
-    for batch_no, batch in enumerate(data.iter_batches(batch_size, 1), start=1):
-        # slice the input in the batch for the feed_dict
-        X = batch
-        feed_dict = {t: v for t, v in zip(init_state_tensors, init_state_values)}
-
-        feed_dict.update(
-            _get_feed_dict_from_X(X, 0, X['token_ids'].shape[0], model, 
-                                        char_inputs, bidirectional)
-        )
-        ret = sess.run(
-            [model.total_loss, final_state_tensors],
-            feed_dict=feed_dict
-        )
-        loss, init_state_values = ret
-        batch_losses.append(loss)
-        batch_perplexity = np.exp(loss)
-        total_loss += loss
-        avg_perplexity = np.exp(total_loss / batch_no)
-        print("batch=%s, batch_perplexity=%s, avg_perplexity=%s, time=%s" %
-            (batch_no, batch_perplexity, avg_perplexity, time.time() - t1))
-    avg_loss = np.mean(batch_losses)
-    print("FINSIHED!  AVERAGE PERPLEXITY = %s" % np.exp(avg_loss))
-    return np.exp(avg_loss)
-
 def test(options, ckpt_file, data, batch_size=256):
     '''
     Get the test set perplexity!
@@ -1357,7 +1323,7 @@ def get_sentence_perplexity(options, ckpt_file, data, batch_size=1):
         idx = 0
         for batch_no, batch in enumerate(data.iter_batches(batch_size, 1), start=1):
             # slice the input in the batch for the feed_dict
-            if idx % 10000 == 0:
+            if idx % 1000 == 0:
                 print("{} sentences done".format(idx))
             X = batch
             feed_dict = {t: v for t, v in zip(
