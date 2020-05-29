@@ -1,0 +1,5 @@
+Batch 50, train_perplexity=1244.3588
+Batch 100, train_perplexity=382.07965
+Batch 150, train_perplexity=277.41986
+Batch 200, train_perplexity=258.4165
+Batch 250, train_perplexity=211.9591
