@@ -525,9 +525,6 @@ class LanguageModel(object):
                         logits=output_scores,
                         labels=tf.squeeze(next_token_id_flat, squeeze_dims=[1])
                     )
-                if mask_flat == None:
-                    mask_flat = tf.ones((128,2), dtype=DTYPE, name=None)
-                
                 mask_flat = tf.reshape(mask_flat,[-1]) #flatten our masks
                 losses = losses * mask_flat
 
@@ -1260,8 +1257,6 @@ def test(options, ckpt_file, data, batch_size=256):
 
             feed_dict = {t: v for t, v in zip(
                                         init_state_tensors, init_state_values)}
-            feed_dict['ignore'] = tf.ones((128,2), dtype=DTYPE, name=None)
-            feed_dict['ignore_reverse'] = tf.ones((128,2), dtype=DTYPE, name=None)
             feed_dict.update(
                 _get_feed_dict_from_X(X, 0, X['token_ids'].shape[0], model, 
                                           char_inputs, bidirectional)

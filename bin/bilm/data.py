@@ -328,8 +328,8 @@ def _get_batch(generator, batch_size, num_steps, max_word_length):
             # There is no more data.  Note: this will not return data
             # for the incomplete batch
             break
-
-        X = {'token_ids': inputs, 'tokens_characters': char_inputs,
+        ignore = np.ones([batch_size, num_steps], np.int32)
+        X = {'ignore': ignore, 'token_ids': inputs, 'tokens_characters': char_inputs,
                                                           'next_token_id': targets}
 
         yield X
