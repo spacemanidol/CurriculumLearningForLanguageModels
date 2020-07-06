@@ -449,12 +449,20 @@ class LanguageModel(object):
                                    shape=(batch_size, unroll_steps),
                                    name=name)
             return id_placeholder
+        def _get_ignore(suffix):
+            name = 'ignore' + suffix
+            ignore_placeholder = tf.placeholder(DTYPE,
+                                       shape=(batch_size, unroll_steps),
+                                       name=name)
+            return ignore_placeholder
 
         # get the window and weight placeholders
         self.next_token_id = _get_next_token_placeholders('')
+        self.ignore = _get_ignore('')
         if self.bidirectional:
             self.next_token_id_reverse = _get_next_token_placeholders(
                 '_reverse')
+            self.ignore_reverse = _get_ignore('_reverse')
 
         # DEFINE THE SOFTMAX VARIABLES
         # get the dimension of the softmax weights
@@ -480,22 +488,21 @@ class LanguageModel(object):
                 'b', [n_tokens_vocab],
                 dtype=DTYPE,
                 initializer=tf.constant_initializer(0.0))
-
         # now calculate losses
         # loss for each direction of the LSTM
         self.individual_losses = []
 
         if self.bidirectional:
             next_ids = [self.next_token_id, self.next_token_id_reverse]
+            masks = [self.ignore , self.ignore_reverse]
         else:
             next_ids = [self.next_token_id]
-
-        for id_placeholder, lstm_output_flat in zip(next_ids, lstm_outputs):
+            masks = [self.ignore]
+        for id_placeholder, lstm_output_flat, mask_flat in zip(next_ids, lstm_outputs,masks):
             # flatten the LSTM output and next token id gold to shape:
             # (batch_size * unroll_steps, softmax_dim)
             # Flatten and reshape the token_id placeholders
             next_token_id_flat = tf.reshape(id_placeholder, [-1, 1])
-
             with tf.control_dependencies([lstm_output_flat]):
                 if self.is_training and self.sample_softmax:
                     losses = tf.nn.sampled_softmax_loss(
@@ -518,9 +525,13 @@ class LanguageModel(object):
                         logits=output_scores,
                         labels=tf.squeeze(next_token_id_flat, squeeze_dims=[1])
                     )
+                if mask_flat == None:
+                    mask_flat = tf.ones((128,2), dtype=DTYPE, name=None)
+                
+                mask_flat = tf.reshape(mask_flat,[-1]) #flatten our masks
+                losses = losses * mask_flat
 
             self.individual_losses.append(tf.reduce_mean(losses))
-
         # now make the total loss -- it's the mean of the individual losses
         if self.bidirectional:
             self.total_loss = 0.5 * (self.individual_losses[0]
@@ -651,7 +662,6 @@ def _get_feed_dict_from_X(X, start, end, model, char_inputs, bidirectional):
         # character inputs
         char_ids = X['tokens_characters'][start:end]
         feed_dict[model.tokens_characters] = char_ids
-
     if bidirectional:
         if not char_inputs:
             feed_dict[model.token_ids_reverse] = \
@@ -659,16 +669,21 @@ def _get_feed_dict_from_X(X, start, end, model, char_inputs, bidirectional):
         else:
             feed_dict[model.tokens_characters_reverse] = \
                 X['tokens_characters_reverse'][start:end]
-
+    ignore = [[model.ignore, '']] #mask for losses
     # now the targets with weights
     next_id_placeholders = [[model.next_token_id, '']]
     if bidirectional:
         next_id_placeholders.append([model.next_token_id_reverse, '_reverse'])
-
+        ignore.append([model.ignore_reverse, '_reverse'])
     for id_placeholder, suffix in next_id_placeholders:
         name = 'next_token_id' + suffix
         feed_dict[id_placeholder] = X[name][start:end]
-
+    
+    for ignore_placeholder, suffix in ignore:
+        name = 'ignore' + suffix
+        feed_dict[ignore_placeholder] = None
+        if name in X:
+            feed_dict[ignore_placeholder] = X[name][start:end]
     return feed_dict
 
 def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
@@ -1245,7 +1260,8 @@ def test(options, ckpt_file, data, batch_size=256):
 
             feed_dict = {t: v for t, v in zip(
                                         init_state_tensors, init_state_values)}
-
+            feed_dict['ignore'] = tf.ones((128,2), dtype=DTYPE, name=None)
+            feed_dict['ignore_reverse'] = tf.ones((128,2), dtype=DTYPE, name=None)
             feed_dict.update(
                 _get_feed_dict_from_X(X, 0, X['token_ids'].shape[0], model, 
                                           char_inputs, bidirectional)

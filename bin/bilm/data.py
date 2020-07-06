@@ -267,22 +267,23 @@ class TokenBatcher(object):
         return X_ids
 
 
-def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, data_len):
+def _get_batch_curriculum(inputs, char_inputs, targets, batch_size, competence, data_len, ignore):
     """Read batches of input."""
     stream_size = int(competence * data_len)
     if competence < 1:
         pass #print("Current Competence:{}\nStream size:{} ".format(competence, stream_size))
     else:
         stream_size = data_len
-    indexes = list(range(stream_size)) #Select potion of corpus which match the models current competence
-    random.shuffle(indexes) #shuffle up all trainable options
-    to_train = [[],[],[]]
+    indexes = list(range(stream_size))
+    np.random.shuffle(indexes) #select the portion of the corpus which we can sample from. way faster than random.shuffle. 
+    to_train = [[],[],[],[]]
     for i in indexes[:batch_size]:
         to_train[0].append(inputs[i])
         to_train[1].append(char_inputs[i])
         to_train[2].append(targets[i])
+        to_train[3].append(ignore[i])
     return {'token_ids': np.array(to_train[0]), 'tokens_characters': np.array(to_train[1]),
-                'next_token_id': np.array(to_train[2])}
+                'next_token_id': np.array(to_train[2]), 'ignore': np.array(to_train[3])}
 
 def _get_batch(generator, batch_size, num_steps, max_word_length):
     """Read batches of input."""
@@ -364,7 +365,13 @@ class LMDataset(object):
             self.load_file(self._choose_random_shard(), num_steps)
         else:
             self._ids = self._load_random_shard()
-    
+    def generate_ignore(self, targets, ignore):
+        for i in range(len(targets)):
+            for j in range(len(targets[i])):
+                if targets[i][j] == 2: #offset by one since our focus is target token ids
+                       ignore[i][j] = 0
+        return ignore
+  
     def load_file(self, shard_name, num_steps):
         inputs, targets, char_inputs = [],[],[]
         with open(shard_name) as f:
@@ -406,6 +413,7 @@ class LMDataset(object):
         self.char_inputs = char_inputs
         self.targets = targets
         self.stream_size = len(inputs)
+        self.ignore = self.generate_ignore(targets, np.ones([sentences_len, num_steps], np.int32))
         print("{} sentences loaded".format(len(inputs)))
         print("Data loaded into memory")
 
@@ -527,8 +535,8 @@ class BidirectionalLMDataset(object):
     
     def curr_iter_batches(self,  batch_size, competence, increment):
         while True:
-            X = _get_batch_curriculum(self._data_forward.inputs, self._data_forward.char_inputs, self._data_forward.targets, batch_size, competence, self._data_forward.stream_size)
-            XR = _get_batch_curriculum(self._data_reverse.inputs, self._data_reverse.char_inputs, self._data_reverse.targets, batch_size, competence, self._data_reverse.stream_size)
+            X = _get_batch_curriculum(self._data_forward.inputs, self._data_forward.char_inputs, self._data_forward.targets, batch_size, competence, self._data_forward.stream_size, self._data_forward.ignore)
+            XR = _get_batch_curriculum(self._data_reverse.inputs, self._data_reverse.char_inputs, self._data_reverse.targets, batch_size, competence, self._data_reverse.stream_size, self._data_reverse.ignore)
             for k, v in XR.items():
                 X[k + '_reverse'] = v
             competence +=  increment
