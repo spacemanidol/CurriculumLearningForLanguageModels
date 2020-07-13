@@ -30,17 +30,18 @@ rm wikitext-2-v1.zip
 #Setup
 conda create -n ProgressiveTraining python=3.6 
 conda activate ProgressiveTraining
-conda install -c anaconda tensorflow-gpu=1.2.1 h5py
+conda install -c anaconda tensorflow-gpu=1.2.1 h5py spacy
+python -m spacy download en_core_web_lg
 python -m unittest discover tests/
-export CUDA_VISIBLE_DEVICES=0,1,2
-python make_vocab.py wikitext-103/wikitext.tokens wikitext-103/vocab.txt
-python make_vocab.py wikitext-2/wikitext.tokens wikitext-2/vocab.txt
-python make_sentence.py wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.sent
-python make_sentence.py wikitext-103/wiki.valid.tokens wikitext-103/wiki.valid.tokens.sent
-python make_sentence.py wikitext-103/wiki.test.tokens wikitext-103/wiki.test.tokens.sent
-python make_sentence.py wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.sent
-python make_sentence.py wikitext-2/wiki.test.tokens wikitext-2/wiki.test.tokens.sent
-python make_sentence.py wikitext-2/wiki.valid.tokens wikitext-2/wiki.valid.tokens.sent
+export CUDA_VISIBLE_DEVICES=0,1,3
+python bin/make_vocab.py wikitext-103/wikitext.tokens wikitext-103/vocab.txt
+python bin/make_vocab.py wikitext-2/wikitext.tokens wikitext-2/vocab.txt
+python bin/make_sentence.py wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.sent
+python bin/make_sentence.py wikitext-103/wiki.valid.tokens wikitext-103/wiki.valid.tokens.sent
+python bin/make_sentence.py wikitext-103/wiki.test.tokens wikitext-103/wiki.test.tokens.sent
+python bin/make_sentence.py wikitext-2/wiki.train.tokens wikitext-2/wiki.train.tokens.sent
+python bin/make_sentence.py wikitext-2/wiki.test.tokens wikitext-2/wiki.test.tokens.sent
+python bin/make_sentence.py wikitext-2/wiki.valid.tokens wikitext-2/wiki.valid.tokens.sent
 
 # Generate Corpus level Curriculum and Train baseline and others
 
