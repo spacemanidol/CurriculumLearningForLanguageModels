@@ -1334,7 +1334,7 @@ def get_sentence_perplexity(options, ckpt_file, data, batch_size=1):
         idx = 0
         for batch_no, batch in enumerate(data.iter_batches(batch_size, 1), start=1):
             # slice the input in the batch for the feed_dict
-            if idx % 1000 == 0:
+            if idx % 100 == 0:
                 print("{} sentences done".format(idx))
             X = batch
             feed_dict = {t: v for t, v in zip(

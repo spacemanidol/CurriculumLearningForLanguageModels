@@ -1,4 +1,4 @@
-echo("usage: generate_curricula.sh <input_file> <tutor_save_dir> <vocab_file>")
+#echo("usage: generate_curricula.sh <input_file> <tutor_save_dir> <vocab_file>")
 python sentence_length.py $1 sentence_length.tsv
 sort -k 1 sentence_length.tsv | tr "\t" "~" | cut -d"~" -f2 > $1.sentence_length
 python pos.py $1 pos.tsv
