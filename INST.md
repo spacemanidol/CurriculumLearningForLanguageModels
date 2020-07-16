@@ -4,12 +4,6 @@ cd models
 wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/vocab-2016-09-10.txt
 wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json
 wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x2048_256_2048cnn_1xhighway/elmo_2x2048_256_2048cnn_1xhighway_options.json
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x1024_128_2048cnn_1xhighway/elmo_2x1024_128_2048cnn_1xhighway_options.json
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x1024_128_2048cnn_1xhighway/elmo_2x1024_128_2048cnn_1xhighway_weights.hdf5
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x2048_256_2048cnn_1xhighway/elmo_2x2048_256_2048cnn_1xhighway_weights.hdf5
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_weights.hdf5
-#wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway_5.5B/elmo_2x4096_512_2048cnn_2xhighway_5.5B_options.json
 
 #Download WikiText Data
 cd ..
@@ -33,7 +27,7 @@ conda activate ProgressiveTraining
 conda install -c anaconda tensorflow-gpu=1.2.1 h5py spacy
 python -m spacy download en_core_web_lg
 python -m unittest discover tests/
-export CUDA_VISIBLE_DEVICES=0,1,3
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 python bin/make_vocab.py wikitext-103/wikitext.tokens wikitext-103/vocab.txt
 python bin/make_vocab.py wikitext-2/wikitext.tokens wikitext-2/vocab.txt
 python bin/make_sentence.py wikitext-103/wiki.train.tokens wikitext-103/wiki.train.tokens.sent
@@ -56,28 +50,9 @@ conda activate jiant
 python -m spacy download en
 python -m nltk.downloader perluniprops nonbreaking_prefixes punkt
 python scripts/download_glue_data.py --data_dir ../Data/glue --tasks all
-python scripts/download_superglue_data.py --data_dir ../Data/superglue --tasks all
 
 #Glue Scores
 #Elmo Pretrained weights
-source user_config.sh; python main.py --config expglue.conf --overrides "elmo_weight_file_path=/home/spacemanidol/ProgressiveLanguageLearning/models/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5"
+source user_config.sh 
+python main.py --config default.conf --overrides "elmo_weight_file_path=/home/spacemanidol/ProgressiveLanguageLearning/models/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5"
 
-
-Wikitext-2 is 107121 sentences
-Each batch is 384 sentences
-Each epoch is 267 batches
-
-After 50 Batches perplexity is 670. Min perplexity is 151. 90% is 202.97072 and is achieved at 1800 batches In sentences its 5400 batches
-Lambda = .1
-Step Increase 0.0001666
-107121 sentences
-
-Train for 2/3 of total batches on curricula 
-Wikitext-103 is 5319618 setneces
-Each batch is 384 sentences
-Each epoch is 13853 batches
-
-278445 batches on curricula 
-Min perplexity is 20.725893.
-Lambda = 0.01
-Increment 3.55545979E-6
