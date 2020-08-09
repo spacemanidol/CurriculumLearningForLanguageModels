@@ -80,3 +80,4 @@ python bin/run_test.py --vocab_file wikitext-103/vocab.txt --test_prefix wikitex
 python bin/run_test.py --vocab_file wikitext-103/vocab.txt --test_prefix wikitext-103/wiki.valid.tokens.sent  --save_dir models/curriculumline/103/unigram > Results/curriculumline/103/uni_onwikitext-103_valid.txt
 python bin/run_test.py --vocab_file wikitext-103/vocab.txt --test_prefix wikitext-2/wiki.valid.tokens --save_dir models/curriculumline/103/unigram > Results/curriculumline/103/uni_onwikitext-2_valid_line.txt
 python bin/run_test.py --vocab_file wikitext-103/vocab.txt --test_prefix wikitext-103/wiki.valid.tokens  --save_dir models/curriculumline/103/unigram > Results/curriculumline/103/uni_onwikitext-103_valid_line.txt
+
