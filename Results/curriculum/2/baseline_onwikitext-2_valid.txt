@@ -7,4 +7,4 @@ Loading data from: wikitext-2/wiki.valid.tokens.sent
 Loaded 10339 sentences.
 Finished loading
 USING SKIP CONNECTIONS
-FINSIHED!  AVERAGE PERPLEXITY = 23924.646
+FINSIHED!  AVERAGE PERPLEXITY = 21866.793

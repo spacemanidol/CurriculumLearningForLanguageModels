@@ -12,7 +12,7 @@ import numpy as np
 
 from tensorflow.python.ops.init_ops import glorot_uniform_initializer
 
-from .data import Vocabulary, UnicodeCharsVocabulary, InvalidNumberOfCharacters
+from .data import Vocabulary, UnicodeCharsVocabulary, InvalidNumberOfCharacters, BidirectionalLMDataset
 
 
 DTYPE = 'float32'
@@ -914,7 +914,8 @@ def train(options, data, n_gpus, tf_save_dir, tf_log_dir,
                 saver.save(sess, checkpoint_path, global_step=global_step)
                 break
 
-def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence, competence_increment, target_batches, converge=False):
+def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence, competence_increment, target_batches, test_prefix, test_interval, vocab):
+    converge = False
     restart_ckpt_file = None
     # not restarting so save the options
     if restart_ckpt_file is None:
@@ -1114,10 +1115,18 @@ def train_curriculum(options, data, n_gpus, tf_save_dir, tf_log_dir, competence,
                     # write the summaries to tensorboard and display perplexity
                     summary_writer.add_summary(ret[1], batch_no)
                     print("Batch %s, train_perplexity=%s" % (batch_no, ret[2]))
-                if (batch_no % 1000 == 0) or (batch_no == n_batches_total):
+                if (batch_no % test_interval == 0) or (batch_no == n_batches_total) or (batch_no == 1):
                     # save the model
+                    tf.reset_default_graph() 
                     checkpoint_path = os.path.join(tf_save_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=global_step)
+                    kwargs = {
+                        'test': True,
+                        'shuffle_on_load': False,
+                    }
+                    test_data = BidirectionalLMDataset(test_prefix, vocab, **kwargs)
+                    test_options, test_ckpt_file = load_options_latest_checkpoint(tf_save_dir)
+                    test(test_options, test_ckpt_file, test_data, batch_size=128)
                 ave_loss_past_n = np.mean(last_n_loss)
                 last_n_loss.pop(0) # remove oldest loss
                 last_n_loss.append(ret[2]) #Add current loss
@@ -1272,9 +1281,7 @@ def test(options, ckpt_file, data, batch_size=256):
             batch_perplexity = np.exp(loss)
             total_loss += loss
             avg_perplexity = np.exp(total_loss / batch_no)
-
-            print("batch=%s, batch_perplexity=%s, avg_perplexity=%s, time=%s" %
-                (batch_no, batch_perplexity, avg_perplexity, time.time() - t1))
+            #print("batch={}, batch_perplexity={}, avg_perplexity={}, time={}".format(batch_no, batch_perplexity, avg_perplexity, time.time() - t1))
 
     avg_loss = np.mean(batch_losses)
     print("FINSIHED!  AVERAGE PERPLEXITY = %s" % np.exp(avg_loss))

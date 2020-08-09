@@ -3,7 +3,7 @@ import argparse
 
 import numpy as np
 
-from bilm.training import train_curriculum, load_vocab
+from bilm.training import train_curriculum, load_vocab, test, load_options_latest_checkpoint
 from bilm.data import BidirectionalLMDataset
 
 
@@ -47,22 +47,23 @@ def main(args):
 
     prefix = args.train_prefix
     train_data = BidirectionalLMDataset(prefix, vocab, test=False, shuffle_on_load=False, curriculum=True, num_steps=20) # we dont shuffle since our curriculum generator shuffles
-
     tf_save_dir = args.save_dir
     tf_log_dir = args.save_dir
-    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, args.initial_competence, args.competence_increment, args.target_batches, args.converge)
+    train_curriculum(options, train_data, args.n_gpus, tf_save_dir, tf_log_dir, args.initial_competence, args.competence_increment, args.target_batches, args.test_prefix, args.test_interval, vocab )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--target_batches', default=18896, type=int) #18896
+    parser.add_argument('--target_batches', default=3820, type=int) #18896
     parser.add_argument('--save_dir', help='Location of checkpoint files')
-    parser.add_argument('--initial_competence', type=float, default = 0.001) 
-    parser.add_argument('--competence_increment', type=float, default = 8e-5)
+    parser.add_argument('--initial_competence', type=float, default = 0.01) 
+    parser.add_argument('--competence_increment', type=float, default = 0.0004)
     parser.add_argument('--converge', default = False)
     parser.add_argument('--vocab_min_occur',type=int, default=50, help='Min occurrence of word in vocab')
-    parser.add_argument('--vocab_file', default='wikitext-103/vocab.txt', help='Vocabulary file')
+    parser.add_argument('--vocab_file', default='wikitext-2/vocab.txt', help='Vocabulary file')
     parser.add_argument('--train_prefix', default='wikitext-103/wiki.train.tokens', help='Prefix for train files')
-    parser.add_argument('--train_tokens', default = 'wikitext103', help='Choose training tokens size')
+    parser.add_argument('--test_prefix', default='wikitext-2/wiki.valid.tokens.sent')
+    parser.add_argument('--test_interval', default=100, type=int, help='run full test every N batches')
+    parser.add_argument('--train_tokens', default = 'wikitext2', help='Choose training tokens size')
     parser.add_argument('--n_gpus',type=int, default=3, help='Number of GPUS')
     parser.add_argument('--train_batch_size', type=int, default=128,help='Train Batch size')
     args = parser.parse_args()
