@@ -4934,3 +4934,824 @@ Batch 16185, train_perplexity=31.584103
 Batch 16190, train_perplexity=35.91101
 Batch 16195, train_perplexity=34.00902
 Batch 16200, train_perplexity=35.26101
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3093.8196
+Batch 16205, train_perplexity=37.067986
+Batch 16210, train_perplexity=35.20023
+Batch 16215, train_perplexity=33.115326
+Batch 16220, train_perplexity=34.72234
+Batch 16225, train_perplexity=30.131287
+Batch 16230, train_perplexity=32.91646
+Batch 16235, train_perplexity=35.361782
+Batch 16240, train_perplexity=29.69288
+Batch 16245, train_perplexity=30.594769
+Batch 16250, train_perplexity=32.24306
+Batch 16255, train_perplexity=32.2513
+Batch 16260, train_perplexity=32.857235
+Batch 16265, train_perplexity=32.587723
+Batch 16270, train_perplexity=33.68985
+Batch 16275, train_perplexity=33.370945
+Batch 16280, train_perplexity=33.433582
+Batch 16285, train_perplexity=31.909058
+Batch 16290, train_perplexity=33.52504
+Batch 16295, train_perplexity=33.24155
+Batch 16300, train_perplexity=36.322765
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2588.1987
+Batch 16305, train_perplexity=31.564228
+Batch 16310, train_perplexity=33.27859
+Batch 16315, train_perplexity=33.70138
+Batch 16320, train_perplexity=36.291973
+Batch 16325, train_perplexity=33.582905
+Batch 16330, train_perplexity=33.252228
+Batch 16335, train_perplexity=32.751587
+Batch 16340, train_perplexity=32.265724
+Batch 16345, train_perplexity=31.778154
+Batch 16350, train_perplexity=32.18396
+Batch 16355, train_perplexity=34.96789
+Batch 16360, train_perplexity=37.042274
+Batch 16365, train_perplexity=33.865322
+Batch 16370, train_perplexity=35.177
+Batch 16375, train_perplexity=32.44411
+Batch 16380, train_perplexity=36.35176
+Batch 16385, train_perplexity=34.0526
+Batch 16390, train_perplexity=32.403725
+Batch 16395, train_perplexity=34.926422
+Batch 16400, train_perplexity=35.005527
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2816.6504
+Batch 16405, train_perplexity=31.883385
+Batch 16410, train_perplexity=32.760715
+Batch 16415, train_perplexity=33.938805
+Batch 16420, train_perplexity=32.16202
+Batch 16425, train_perplexity=33.234085
+Batch 16430, train_perplexity=33.410625
+Batch 16435, train_perplexity=31.837687
+Batch 16440, train_perplexity=33.02104
+Batch 16445, train_perplexity=35.0858
+Batch 16450, train_perplexity=31.328989
+Batch 16455, train_perplexity=33.411015
+Batch 16460, train_perplexity=35.472466
+Batch 16465, train_perplexity=34.553616
+Batch 16470, train_perplexity=33.9334
+Batch 16475, train_perplexity=32.27413
+Batch 16480, train_perplexity=34.877693
+Batch 16485, train_perplexity=32.329758
+Batch 16490, train_perplexity=30.757156
+Batch 16495, train_perplexity=33.214996
+Batch 16500, train_perplexity=34.073044
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2858.464
+Batch 16505, train_perplexity=35.15124
+Batch 16510, train_perplexity=34.95377
+Batch 16515, train_perplexity=35.965214
+Batch 16520, train_perplexity=35.067913
+Batch 16525, train_perplexity=35.370358
+Batch 16530, train_perplexity=32.564545
+Batch 16535, train_perplexity=31.81119
+Batch 16540, train_perplexity=32.861076
+Batch 16545, train_perplexity=32.557674
+Batch 16550, train_perplexity=32.43312
+Batch 16555, train_perplexity=30.56033
+Batch 16560, train_perplexity=35.155132
+Batch 16565, train_perplexity=35.008232
+Batch 16570, train_perplexity=32.05193
+Batch 16575, train_perplexity=32.83185
+Batch 16580, train_perplexity=33.030834
+Batch 16585, train_perplexity=33.44467
+Batch 16590, train_perplexity=33.074234
+Batch 16595, train_perplexity=33.023262
+Batch 16600, train_perplexity=35.22275
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2884.826
+Batch 16605, train_perplexity=31.623495
+Batch 16610, train_perplexity=33.13816
+Batch 16615, train_perplexity=31.914833
+Batch 16620, train_perplexity=34.251408
+Batch 16625, train_perplexity=31.435354
+Batch 16630, train_perplexity=32.99639
+Batch 16635, train_perplexity=36.016014
+Batch 16640, train_perplexity=32.422604
+Batch 16645, train_perplexity=33.895267
+Batch 16650, train_perplexity=31.554169
+Batch 16655, train_perplexity=34.93116
+Batch 16660, train_perplexity=34.25095
+Batch 16665, train_perplexity=35.094593
+Batch 16670, train_perplexity=33.641884
+Batch 16675, train_perplexity=32.712738
+Batch 16680, train_perplexity=31.66302
+Batch 16685, train_perplexity=34.18727
+Batch 16690, train_perplexity=31.30026
+Batch 16695, train_perplexity=35.698162
+Batch 16700, train_perplexity=33.006165
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2830.0334
+Batch 16705, train_perplexity=33.11712
+Batch 16710, train_perplexity=36.123802
+Batch 16715, train_perplexity=34.003185
+Batch 16720, train_perplexity=36.622086
+Batch 16725, train_perplexity=36.302452
+Batch 16730, train_perplexity=31.924908
+Batch 16735, train_perplexity=35.3132
+Batch 16740, train_perplexity=35.385937
+Batch 16745, train_perplexity=35.71408
+Batch 16750, train_perplexity=35.403877
+Batch 16755, train_perplexity=36.355637
+Batch 16760, train_perplexity=32.86695
+Batch 16765, train_perplexity=32.87188
+Batch 16770, train_perplexity=33.4508
+Batch 16775, train_perplexity=32.663292
+Batch 16780, train_perplexity=32.08662
+Batch 16785, train_perplexity=32.478977
+Batch 16790, train_perplexity=30.627174
+Batch 16795, train_perplexity=32.94319
+Batch 16800, train_perplexity=35.504356
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3056.592
+Batch 16805, train_perplexity=32.11574
+Batch 16810, train_perplexity=32.549007
+Batch 16815, train_perplexity=34.70443
+Batch 16820, train_perplexity=34.021473
+Batch 16825, train_perplexity=33.88367
+Batch 16830, train_perplexity=32.651806
+Batch 16835, train_perplexity=34.075886
+Batch 16840, train_perplexity=34.218536
+Batch 16845, train_perplexity=35.348682
+Batch 16850, train_perplexity=32.18691
+Batch 16855, train_perplexity=39.036686
+Batch 16860, train_perplexity=33.932224
+Batch 16865, train_perplexity=37.96259
+Batch 16870, train_perplexity=33.22054
+Batch 16875, train_perplexity=34.289352
+Batch 16880, train_perplexity=32.42753
+Batch 16885, train_perplexity=32.23055
+Batch 16890, train_perplexity=33.215374
+Batch 16895, train_perplexity=36.381023
+Batch 16900, train_perplexity=33.929783
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2477.5132
+Batch 16905, train_perplexity=32.5
+Batch 16910, train_perplexity=31.234598
+Batch 16915, train_perplexity=34.57852
+Batch 16920, train_perplexity=37.501762
+Batch 16925, train_perplexity=32.729332
+Batch 16930, train_perplexity=33.80937
+Batch 16935, train_perplexity=34.20251
+Batch 16940, train_perplexity=31.228203
+Batch 16945, train_perplexity=35.76811
+Batch 16950, train_perplexity=35.11251
+Batch 16955, train_perplexity=34.08908
+Batch 16960, train_perplexity=34.673096
+Batch 16965, train_perplexity=33.05853
+Batch 16970, train_perplexity=32.854637
+Batch 16975, train_perplexity=33.786144
+Batch 16980, train_perplexity=33.659897
+Batch 16985, train_perplexity=34.399246
+Batch 16990, train_perplexity=33.42088
+Batch 16995, train_perplexity=33.449734
+Batch 17000, train_perplexity=34.81247
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2864.9746
+Batch 17005, train_perplexity=34.979332
+Batch 17010, train_perplexity=31.11003
+Batch 17015, train_perplexity=33.27449
+Batch 17020, train_perplexity=35.80734
+Batch 17025, train_perplexity=36.200138
+Batch 17030, train_perplexity=35.896786
+Batch 17035, train_perplexity=32.464848
+Batch 17040, train_perplexity=34.030224
+Batch 17045, train_perplexity=31.836334
+Batch 17050, train_perplexity=34.23636
+Batch 17055, train_perplexity=34.19399
+Batch 17060, train_perplexity=36.76116
+Batch 17065, train_perplexity=32.681026
+Batch 17070, train_perplexity=32.112236
+Batch 17075, train_perplexity=33.15274
+Batch 17080, train_perplexity=31.706108
+Batch 17085, train_perplexity=33.094868
+Batch 17090, train_perplexity=33.377663
+Batch 17095, train_perplexity=32.428726
+Batch 17100, train_perplexity=34.88532
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2881.1938
+Batch 17105, train_perplexity=35.154236
+Batch 17110, train_perplexity=29.46433
+Batch 17115, train_perplexity=33.325573
+Batch 17120, train_perplexity=33.20065
+Batch 17125, train_perplexity=35.062653
+Batch 17130, train_perplexity=33.730976
+Batch 17135, train_perplexity=31.351458
+Batch 17140, train_perplexity=34.143913
+Batch 17145, train_perplexity=33.18821
+Batch 17150, train_perplexity=31.387304
+Batch 17155, train_perplexity=32.39767
+Batch 17160, train_perplexity=33.827282
+Batch 17165, train_perplexity=33.22243
+Batch 17170, train_perplexity=32.59135
+Batch 17175, train_perplexity=34.19068
+Batch 17180, train_perplexity=33.426853
+Batch 17185, train_perplexity=33.430386
+Batch 17190, train_perplexity=34.18917
+Batch 17195, train_perplexity=32.6138
+Batch 17200, train_perplexity=32.113735
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2960.2434
+Batch 17205, train_perplexity=31.248535
+Batch 17210, train_perplexity=33.0474
+Batch 17215, train_perplexity=32.566082
+Batch 17220, train_perplexity=31.25238
+Batch 17225, train_perplexity=32.318386
+Batch 17230, train_perplexity=33.517654
+Batch 17235, train_perplexity=33.41244
+Batch 17240, train_perplexity=38.759064
+Batch 17245, train_perplexity=34.757668
+Batch 17250, train_perplexity=34.152447
+Batch 17255, train_perplexity=32.81149
+Batch 17260, train_perplexity=34.537037
+Batch 17265, train_perplexity=34.50701
+Batch 17270, train_perplexity=33.254345
+Batch 17275, train_perplexity=32.562325
+Batch 17280, train_perplexity=34.38393
+Batch 17285, train_perplexity=32.543697
+Batch 17290, train_perplexity=31.808218
+Batch 17295, train_perplexity=36.300465
+Batch 17300, train_perplexity=36.124775
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3014.486
+Batch 17305, train_perplexity=32.52634
+Batch 17310, train_perplexity=33.46757
+Batch 17315, train_perplexity=33.54974
+Batch 17320, train_perplexity=33.381012
+Batch 17325, train_perplexity=33.75743
+Batch 17330, train_perplexity=33.811714
+Batch 17335, train_perplexity=30.827751
+Batch 17340, train_perplexity=32.59369
+Batch 17345, train_perplexity=33.570232
+Batch 17350, train_perplexity=33.29555
+Batch 17355, train_perplexity=34.8605
+Batch 17360, train_perplexity=34.173206
+Batch 17365, train_perplexity=33.443897
+Batch 17370, train_perplexity=32.292583
+Batch 17375, train_perplexity=31.55863
+Batch 17380, train_perplexity=33.068687
+Batch 17385, train_perplexity=33.049236
+Batch 17390, train_perplexity=30.955345
+Batch 17395, train_perplexity=30.818426
+Batch 17400, train_perplexity=34.785637
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2845.112
+Batch 17405, train_perplexity=31.471418
+Batch 17410, train_perplexity=35.205666
+Batch 17415, train_perplexity=31.68149
+Batch 17420, train_perplexity=32.14647
+Batch 17425, train_perplexity=31.928799
+Batch 17430, train_perplexity=33.04054
+Batch 17435, train_perplexity=30.940971
+Batch 17440, train_perplexity=33.387756
+Batch 17445, train_perplexity=29.896818
+Batch 17450, train_perplexity=32.117355
+Batch 17455, train_perplexity=31.378618
+Batch 17460, train_perplexity=31.367105
+Batch 17465, train_perplexity=33.25463
+Batch 17470, train_perplexity=34.66163
+Batch 17475, train_perplexity=32.83099
+Batch 17480, train_perplexity=33.37942
+Batch 17485, train_perplexity=33.75738
+Batch 17490, train_perplexity=33.142853
+Batch 17495, train_perplexity=35.776604
+Batch 17500, train_perplexity=35.046173
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3017.391
+Batch 17505, train_perplexity=34.550774
+Batch 17510, train_perplexity=27.96439
+Batch 17515, train_perplexity=33.04179
+Batch 17520, train_perplexity=31.449478
+Batch 17525, train_perplexity=32.885483
+Batch 17530, train_perplexity=33.75946
+Batch 17535, train_perplexity=33.69982
+Batch 17540, train_perplexity=34.50929
+Batch 17545, train_perplexity=32.491608
+Batch 17550, train_perplexity=29.563301
+Batch 17555, train_perplexity=30.875084
+Batch 17560, train_perplexity=30.25708
+Batch 17565, train_perplexity=32.781586
+Batch 17570, train_perplexity=32.442772
+Batch 17575, train_perplexity=31.668938
+Batch 17580, train_perplexity=33.718586
+Batch 17585, train_perplexity=31.517027
+Batch 17590, train_perplexity=34.800934
+Batch 17595, train_perplexity=33.247177
+Batch 17600, train_perplexity=29.93208
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3334.0918
+Batch 17605, train_perplexity=30.230083
+Batch 17610, train_perplexity=31.868002
+Batch 17615, train_perplexity=31.808445
+Batch 17620, train_perplexity=32.9654
+Batch 17625, train_perplexity=32.59593
+Batch 17630, train_perplexity=31.546856
+Batch 17635, train_perplexity=34.72986
+Batch 17640, train_perplexity=32.02945
+Batch 17645, train_perplexity=31.094131
+Batch 17650, train_perplexity=32.766647
+Batch 17655, train_perplexity=30.42949
+Batch 17660, train_perplexity=32.18999
+Batch 17665, train_perplexity=30.904028
+Batch 17670, train_perplexity=29.790743
+Batch 17675, train_perplexity=33.02142
+Batch 17680, train_perplexity=31.700682
+Batch 17685, train_perplexity=32.25524
+Batch 17690, train_perplexity=32.554844
+Batch 17695, train_perplexity=33.225727
+Batch 17700, train_perplexity=34.729263
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3893.1077
+Batch 17705, train_perplexity=31.678785
+Batch 17710, train_perplexity=36.84712
+Batch 17715, train_perplexity=36.98608
+Batch 17720, train_perplexity=32.646816
+Batch 17725, train_perplexity=32.043015
+Batch 17730, train_perplexity=32.189663
+Batch 17735, train_perplexity=30.422062
+Batch 17740, train_perplexity=34.248466
+Batch 17745, train_perplexity=30.3324
+Batch 17750, train_perplexity=28.887798
+Batch 17755, train_perplexity=33.78458
+Batch 17760, train_perplexity=28.893976
+Batch 17765, train_perplexity=33.558292
+Batch 17770, train_perplexity=33.391376
+Batch 17775, train_perplexity=32.046413
+Batch 17780, train_perplexity=33.23
+Batch 17785, train_perplexity=33.38173
+Batch 17790, train_perplexity=31.537848
+Batch 17795, train_perplexity=32.856148
+Batch 17800, train_perplexity=34.766552
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 4011.5278
+Batch 17805, train_perplexity=30.251526
+Batch 17810, train_perplexity=29.590527
+Batch 17815, train_perplexity=32.70179
+Batch 17820, train_perplexity=32.09467
+Batch 17825, train_perplexity=33.260857
+Batch 17830, train_perplexity=34.63195
+Batch 17835, train_perplexity=32.23639
+Batch 17840, train_perplexity=31.772617
+Batch 17845, train_perplexity=33.50361
+Batch 17850, train_perplexity=38.81016
+Batch 17855, train_perplexity=30.934826
+Batch 17860, train_perplexity=31.800877
+Batch 17865, train_perplexity=34.262188
+Batch 17870, train_perplexity=33.476574
+Batch 17875, train_perplexity=30.831522
+Batch 17880, train_perplexity=33.101078
+Batch 17885, train_perplexity=30.883904
+Batch 17890, train_perplexity=32.909176
+Batch 17895, train_perplexity=33.717518
+Batch 17900, train_perplexity=32.259445
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3190.7866
+Batch 17905, train_perplexity=34.847702
+Batch 17910, train_perplexity=33.897297
+Batch 17915, train_perplexity=34.71798
+Batch 17920, train_perplexity=31.196411
+Batch 17925, train_perplexity=31.280066
+Batch 17930, train_perplexity=32.259064
+Batch 17935, train_perplexity=32.436127
+Batch 17940, train_perplexity=31.661646
+Batch 17945, train_perplexity=31.887999
+Batch 17950, train_perplexity=32.636475
+Batch 17955, train_perplexity=33.828163
+Batch 17960, train_perplexity=33.0053
+Batch 17965, train_perplexity=35.703526
+Batch 17970, train_perplexity=33.07663
+Batch 17975, train_perplexity=30.909296
+Batch 17980, train_perplexity=31.485039
+Batch 17985, train_perplexity=32.76825
+Batch 17990, train_perplexity=30.147621
+Batch 17995, train_perplexity=31.902576
+Batch 18000, train_perplexity=30.258083
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 3181.3916
+Batch 18005, train_perplexity=34.471085
+Batch 18010, train_perplexity=32.819702
+Batch 18015, train_perplexity=32.49145
+Batch 18020, train_perplexity=31.116484
+Batch 18025, train_perplexity=32.62581
+Batch 18030, train_perplexity=33.24927
+Batch 18035, train_perplexity=36.887993
+Batch 18040, train_perplexity=32.57366
+Batch 18045, train_perplexity=33.710396
+Batch 18050, train_perplexity=32.413963
+Batch 18055, train_perplexity=32.334824
+Batch 18060, train_perplexity=31.956627
+Batch 18065, train_perplexity=32.094822
+Batch 18070, train_perplexity=35.468956
+Batch 18075, train_perplexity=32.55687
+Batch 18080, train_perplexity=34.567284
+Batch 18085, train_perplexity=31.807938
+Batch 18090, train_perplexity=31.393284
+Batch 18095, train_perplexity=29.965004
+Batch 18100, train_perplexity=33.182663
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2297.6511
+Batch 18105, train_perplexity=30.09661
+Batch 18110, train_perplexity=31.92886
+Batch 18115, train_perplexity=31.375872
+Batch 18120, train_perplexity=31.869272
+Batch 18125, train_perplexity=31.848543
+Batch 18130, train_perplexity=32.606686
+Batch 18135, train_perplexity=32.313393
+Batch 18140, train_perplexity=34.866127
+Batch 18145, train_perplexity=32.736176
+Batch 18150, train_perplexity=31.434177
+Batch 18155, train_perplexity=31.618519
+Batch 18160, train_perplexity=35.07152
+Batch 18165, train_perplexity=32.42871
+Batch 18170, train_perplexity=31.337915
+Batch 18175, train_perplexity=31.615782
+Batch 18180, train_perplexity=31.459084
+Batch 18185, train_perplexity=31.454285
+Batch 18190, train_perplexity=32.43588
+Batch 18195, train_perplexity=33.16893
+Batch 18200, train_perplexity=30.77831
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2572.0623
+Batch 18205, train_perplexity=31.939342
+Batch 18210, train_perplexity=30.647392
+Batch 18215, train_perplexity=30.515997
+Batch 18220, train_perplexity=34.86385
+Batch 18225, train_perplexity=31.546173
+Batch 18230, train_perplexity=33.16579
+Batch 18235, train_perplexity=31.423971
+Batch 18240, train_perplexity=31.186298
+Batch 18245, train_perplexity=33.046967
+Batch 18250, train_perplexity=31.018518
+Batch 18255, train_perplexity=29.574833
+Batch 18260, train_perplexity=34.88479
+Batch 18265, train_perplexity=33.628517
+Batch 18270, train_perplexity=34.003998
+Batch 18275, train_perplexity=33.581688
+Batch 18280, train_perplexity=35.109432
+Batch 18285, train_perplexity=34.1458
+Batch 18290, train_perplexity=33.163025
+Batch 18295, train_perplexity=33.765915
+Batch 18300, train_perplexity=32.995777
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2410.2231
+Batch 18305, train_perplexity=30.228512
+Batch 18310, train_perplexity=32.787464
+Batch 18315, train_perplexity=30.985418
+Batch 18320, train_perplexity=33.236378
+Batch 18325, train_perplexity=31.809248
+Batch 18330, train_perplexity=32.221504
+Batch 18335, train_perplexity=31.217566
+Batch 18340, train_perplexity=31.001677
+Batch 18345, train_perplexity=31.063078
+Batch 18350, train_perplexity=33.02863
+Batch 18355, train_perplexity=31.743814
+Batch 18360, train_perplexity=30.709799
+Batch 18365, train_perplexity=33.453293
+Batch 18370, train_perplexity=33.81748
+Batch 18375, train_perplexity=30.660124
+Batch 18380, train_perplexity=31.74803
+Batch 18385, train_perplexity=30.176796
+Batch 18390, train_perplexity=31.437363
+Batch 18395, train_perplexity=31.684443
+Batch 18400, train_perplexity=31.223103
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2519.7642
+Batch 18405, train_perplexity=31.561752
+Batch 18410, train_perplexity=31.428782
+Batch 18415, train_perplexity=29.779488
+Batch 18420, train_perplexity=31.844572
+Batch 18425, train_perplexity=30.548872
+Batch 18430, train_perplexity=31.386377
+Batch 18435, train_perplexity=32.09429
+Batch 18440, train_perplexity=31.877972
+Batch 18445, train_perplexity=32.0931
+Batch 18450, train_perplexity=32.944565
+Batch 18455, train_perplexity=32.49169
+Batch 18460, train_perplexity=30.796919
+Batch 18465, train_perplexity=31.458649
+Batch 18470, train_perplexity=30.739267
+Batch 18475, train_perplexity=31.901596
+Batch 18480, train_perplexity=32.85539
+Batch 18485, train_perplexity=30.911957
+Batch 18490, train_perplexity=32.17078
+Batch 18495, train_perplexity=34.184338
+Batch 18500, train_perplexity=29.830082
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2582.652
+Batch 18505, train_perplexity=33.67466
+Batch 18510, train_perplexity=29.388174
+Batch 18515, train_perplexity=33.057465
+Batch 18520, train_perplexity=29.740547
+Batch 18525, train_perplexity=32.49569
+Batch 18530, train_perplexity=33.5848
+Batch 18535, train_perplexity=29.361008
+Batch 18540, train_perplexity=32.98766
+Batch 18545, train_perplexity=32.649315
+Batch 18550, train_perplexity=32.620728
+Batch 18555, train_perplexity=31.99212
+Batch 18560, train_perplexity=30.769192
+Batch 18565, train_perplexity=31.6571
+Batch 18570, train_perplexity=34.33074
+Batch 18575, train_perplexity=32.27607
+Batch 18580, train_perplexity=31.994919
+Batch 18585, train_perplexity=30.866995
+Batch 18590, train_perplexity=29.42833
+Batch 18595, train_perplexity=31.99685
+Batch 18600, train_perplexity=30.978823
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2107.9314
+Batch 18605, train_perplexity=34.19168
+Batch 18610, train_perplexity=32.15716
+Batch 18615, train_perplexity=30.778378
+Batch 18620, train_perplexity=32.195526
+Batch 18625, train_perplexity=31.240616
+Batch 18630, train_perplexity=32.52952
+Batch 18635, train_perplexity=34.632545
+Batch 18640, train_perplexity=33.769974
+Batch 18645, train_perplexity=29.116089
+Batch 18650, train_perplexity=32.054543
+Batch 18655, train_perplexity=30.98759
+Batch 18660, train_perplexity=33.40138
+Batch 18665, train_perplexity=34.10356
+Batch 18670, train_perplexity=29.709309
+Batch 18675, train_perplexity=33.116943
+Batch 18680, train_perplexity=29.07885
+Batch 18685, train_perplexity=32.028225
+Batch 18690, train_perplexity=32.080215
+Batch 18695, train_perplexity=32.32533
+Batch 18700, train_perplexity=32.908115
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2221.0688
+Batch 18705, train_perplexity=30.72602
+Batch 18710, train_perplexity=30.37136
+Batch 18715, train_perplexity=31.26651
+Batch 18720, train_perplexity=32.057163
+Batch 18725, train_perplexity=31.538261
+Batch 18730, train_perplexity=32.484474
+Batch 18735, train_perplexity=31.007944
+Batch 18740, train_perplexity=31.701921
+Batch 18745, train_perplexity=29.334978
+Batch 18750, train_perplexity=30.285862
+Batch 18755, train_perplexity=31.317749
+Batch 18760, train_perplexity=33.800728
+Batch 18765, train_perplexity=30.906673
+Batch 18770, train_perplexity=30.795525
+Batch 18775, train_perplexity=30.465633
+Batch 18780, train_perplexity=32.02499
+Batch 18785, train_perplexity=31.61282
+Batch 18790, train_perplexity=31.337349
+Batch 18795, train_perplexity=31.150703
+Batch 18800, train_perplexity=34.02135
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2294.0876
+Batch 18805, train_perplexity=32.872063
+Batch 18810, train_perplexity=35.43063
+Batch 18815, train_perplexity=32.915195
+Batch 18820, train_perplexity=31.9635
+Batch 18825, train_perplexity=33.38106
+Batch 18830, train_perplexity=30.455488
+Batch 18835, train_perplexity=30.560125
+Batch 18840, train_perplexity=33.085526
+Batch 18845, train_perplexity=31.023798
+Batch 18850, train_perplexity=31.415455
+Batch 18855, train_perplexity=29.875898
+Batch 18860, train_perplexity=30.982456
+Batch 18865, train_perplexity=32.638714
+Batch 18870, train_perplexity=31.127666
+Batch 18875, train_perplexity=32.28349
+Batch 18880, train_perplexity=31.009304
+Batch 18885, train_perplexity=30.902605
+Batch 18890, train_perplexity=33.191143
+Batch 18895, train_perplexity=32.91063
+Batch 18900, train_perplexity=29.44492
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens.sent
+Loading data from: wikitext-103/wiki.valid.tokens.sent
+Loaded 10380 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2346.8057
+Done training
