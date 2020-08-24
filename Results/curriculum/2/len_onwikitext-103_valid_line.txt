@@ -1,0 +1,10 @@
+Found 1 shards at wikitext-103/wiki.valid.tokens
+Loading data from: wikitext-103/wiki.valid.tokens
+Loaded 3760 sentences.
+Finished loading
+Found 1 shards at wikitext-103/wiki.valid.tokens
+Loading data from: wikitext-103/wiki.valid.tokens
+Loaded 3760 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 8640.104

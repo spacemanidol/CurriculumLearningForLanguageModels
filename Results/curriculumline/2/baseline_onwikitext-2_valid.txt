@@ -1,0 +1,10 @@
+Found 1 shards at wikitext-2/wiki.valid.tokens.sent
+Loading data from: wikitext-2/wiki.valid.tokens.sent
+Loaded 10339 sentences.
+Finished loading
+Found 1 shards at wikitext-2/wiki.valid.tokens.sent
+Loading data from: wikitext-2/wiki.valid.tokens.sent
+Loaded 10339 sentences.
+Finished loading
+USING SKIP CONNECTIONS
+FINSIHED!  AVERAGE PERPLEXITY = 2285.1177
