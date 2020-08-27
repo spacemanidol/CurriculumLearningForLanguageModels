@@ -74,3 +74,8 @@ sh scripts/dump_all_weights.sh
 # Run Jiant
 source jiant_config.sh 
 python main.py --config default.conf --overrides "elmo_weight_file_path=/home/spacemanidol/ProgressiveLanguageLearning/models/elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5"
+
+
+tail -n 1 Results/wikitext/bengiostylecurriculum/wikitext-103/corpus_curr_wiki103_validperplexity_epoch* | tr 'FINSIHED!  AVERAGE PERPLEXITY = ' '~' | tr '~' 0
+
+ python consume_glue.py Results/glueresults/elmocompetencewiki2baseline.txt
